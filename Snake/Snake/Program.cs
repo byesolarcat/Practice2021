@@ -39,22 +39,26 @@ namespace Snake
 				{
 					PrintGameOver();
 					ConsoleKeyInfo key = Console.ReadKey();
-					switch (key.KeyChar)
+					while (true)
 					{
-						case 'Y':
-							{
-								Console.Clear();
-								StartGame();
-								break;
-							}
-						case 'y':
-							{
-								goto case 'Y';
-							}
-						default:
-							{
-								break;
-							}
+						switch (key.KeyChar)
+						{
+							case 'Y':
+								{
+									Console.Clear();
+									StartGame();
+									break;
+								}
+							case 'y':
+								{
+									goto case 'Y';
+								}
+							default:
+								{
+									break;
+								}
+						}
+						break;
 					}
 					break;
 				}
@@ -85,7 +89,7 @@ namespace Snake
 			Console.SetCursorPosition(Console.WindowWidth / 2 - 6, Console.WindowHeight / 2);
 			Console.Write("Game Over!");
 			Console.SetCursorPosition(Console.WindowWidth / 2 - 18, Console.WindowHeight / 2 + 1);
-			Console.Write("Press 'Y' if you want to restart");
+			Console.Write("Press 'Y' if you want to restart\n");
 		}
 	}
 }
