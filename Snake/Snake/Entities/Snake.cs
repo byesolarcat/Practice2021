@@ -7,7 +7,7 @@ namespace Snake
 {
 	class Snake : Figure
 	{
-		public Direction MovementDirection { get; set; }
+		private Direction MovementDirection { get; set; }
 
 		public Snake(Point tail, int length, Direction direction )
 		{
