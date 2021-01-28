@@ -28,6 +28,11 @@ namespace Snake
 			Console.SetCursorPosition(this.X, this.Y);
 			Console.Write(this.Symbol);
 		}
+		public void Clear()
+		{
+			Symbol = ' ';
+			Draw();
+		}
 
 		public void Move(int offset, Direction direction)
 		{
