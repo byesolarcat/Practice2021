@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace Snake
@@ -15,27 +16,13 @@ namespace Snake
 		static void InitGameField()
 		{
 			Console.SetWindowSize(121, 30);
-
-			HorizontalLine topBorder =
-				new HorizontalLine(Console.WindowLeft, Console.WindowWidth - 1, Console.WindowTop, '—');
-			HorizontalLine bottomBorder =
-				new HorizontalLine(Console.WindowLeft, Console.WindowWidth - 1, Console.WindowHeight - 1, '—');
-			HorizontalLine scoreBoardBorder =
-				new HorizontalLine(Console.WindowLeft, Console.WindowWidth - 1, Console.WindowTop + 2, '—');
-			VerticalLine leftBorder =
-				new VerticalLine(Console.WindowTop, Console.WindowHeight - 1, Console.WindowLeft, '|');
-			VerticalLine rightBorder =
-				new VerticalLine(Console.WindowTop, Console.WindowHeight - 1, Console.WindowWidth - 1, '|');
-
-			topBorder.Draw();
-			bottomBorder.Draw();
-			scoreBoardBorder.Draw();
-			leftBorder.Draw();
-			rightBorder.Draw();
 		}
 
 		static void StartGame()
 		{
+			Walls walls = new Walls();
+			walls.Draw();
+
 			Snake snk = new Snake(new Point(4, 5, '*'), 4, Direction.Right);
 			snk.Draw();
 
@@ -45,17 +32,22 @@ namespace Snake
 
 			while (true)
 			{
+				if (walls.IsHit(snk) || snk.isHitTail())
+				{
+					break;
+				}
 				if (snk.Eat(food))
 				{
 					food = foodCreator.CreateFood();
 					food.Draw();
 				}
+				Thread.Sleep(50);
 				if (Console.KeyAvailable)
 				{
 					ConsoleKeyInfo key = Console.ReadKey();
 					snk.SetMovementDirection(key);
 				}
-				Thread.Sleep(128);
+				Thread.Sleep(50);
 				snk.Move();
 			}
 		}

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Snake
 {
@@ -9,7 +8,7 @@ namespace Snake
 	{
 		private Direction MovementDirection { get; set; }
 
-		public Snake(Point tail, int length, Direction direction )
+		public Snake(Point tail, int length, Direction direction)
 		{
 			this.MovementDirection = direction;
 			PointsList = new List<Point>();
@@ -19,7 +18,7 @@ namespace Snake
 				p.Move(i, direction);
 				this.PointsList.Add(p);
 			}
-			
+
 		}
 
 		public void Move()
@@ -31,6 +30,17 @@ namespace Snake
 
 			tail.Clear();
 			head.Draw();
+		}
+
+		public bool isHitTail()
+		{
+			var head = PointsList.Last();
+			for (int i = 0; i < PointsList.Count - 2; i++)
+			{
+				if (head.IsHit(PointsList[i]))
+					return true;
+			}
+			return false;
 		}
 
 		public bool Eat(Point food)
