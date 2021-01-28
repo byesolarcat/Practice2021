@@ -33,6 +33,18 @@ namespace Snake
 			head.Draw();
 		}
 
+		public bool Eat(Point food)
+		{
+			Point head = GetNextPoint();
+			if (head.IsHit(food))
+			{
+				food.Symbol = head.Symbol;
+				PointsList.Add(food);
+				return true;
+			}
+			return false;
+		}
+
 		private Point GetNextPoint()
 		{
 			Point head = PointsList.Last();

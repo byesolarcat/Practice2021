@@ -60,6 +60,11 @@ namespace Snake
 					}
 			}
 		}
+		
+		public bool IsHit(Point p)
+		{
+			return this.X == p.X && this.Y == p.Y;
+		}
 	}
 }
 

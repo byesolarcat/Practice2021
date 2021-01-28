@@ -39,14 +39,23 @@ namespace Snake
 			Snake snk = new Snake(new Point(4, 5, '*'), 4, Direction.Right);
 			snk.Draw();
 
+			FoodCreator foodCreator = new FoodCreator('@');
+			Point food = foodCreator.CreateFood();
+			food.Draw();
+
 			while (true)
 			{
+				if (snk.Eat(food))
+				{
+					food = foodCreator.CreateFood();
+					food.Draw();
+				}
 				if (Console.KeyAvailable)
 				{
 					ConsoleKeyInfo key = Console.ReadKey();
 					snk.SetMovementDirection(key);
 				}
-				Thread.Sleep(64);
+				Thread.Sleep(128);
 				snk.Move();
 			}
 		}
