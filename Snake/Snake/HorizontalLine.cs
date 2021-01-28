@@ -2,10 +2,8 @@
 
 namespace Snake
 {
-	class HorizontalLine
+	class HorizontalLine : Figure
 	{
-		public List<Point> pointsList { get; set; }
-
 		public HorizontalLine(int xLeft, int xRight, int y, char symbol)
 		{
 			pointsList = new List<Point>();
@@ -13,14 +11,6 @@ namespace Snake
 			{
 				Point p = new Point(x, y, symbol);
 				pointsList.Add(p);
-			}
-		}
-
-		public void Draw()
-		{
-			foreach (var point in pointsList)
-			{
-				point.Draw();
 			}
 		}
 	}

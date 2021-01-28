@@ -1,11 +1,9 @@
-﻿=using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Snake
 {
-	class VerticalLine
+	class VerticalLine : Figure
 	{
-		public List<Point> PointsList { get; set; }
-
 		public VerticalLine(int yTop, int yBottom, int x, char symbol)
 		{
 			PointsList = new List<Point>();
@@ -13,14 +11,6 @@ namespace Snake
 			{
 				Point p = new Point(x, y, symbol);
 				PointsList.Add(p);
-			}
-		}
-
-		public void Draw()
-		{
-			foreach (var point in PointsList)
-			{
-				point.Draw();
 			}
 		}
 	}
