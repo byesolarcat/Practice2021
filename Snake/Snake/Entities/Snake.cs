@@ -7,6 +7,7 @@ namespace Snake
 	class Snake : Figure
 	{
 		private Direction MovementDirection { get; set; }
+		public int FoodEaten { get; private set; }
 
 		public Snake(Point tail, int length, Direction direction)
 		{
@@ -18,7 +19,7 @@ namespace Snake
 				p.Move(i, direction);
 				this.PointsList.Add(p);
 			}
-
+			FoodEaten = 0;
 		}
 
 		public void Move()
@@ -50,6 +51,8 @@ namespace Snake
 			{
 				food.Symbol = head.Symbol;
 				PointsList.Add(food);
+				FoodEaten++;
+
 				return true;
 			}
 			return false;

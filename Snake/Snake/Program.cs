@@ -28,6 +28,9 @@ namespace Snake
 			walls.Draw();
 			food.Draw();
 
+			Console.SetCursorPosition(2, 1);
+			Console.Write("Food eaten: {0}", snk.FoodEaten);
+
 			while (true)
 			{
 				if (walls.IsHit(snk) || snk.isHitTail())
@@ -39,6 +42,8 @@ namespace Snake
 				{
 					food = foodCreator.CreateFood();
 					food.Draw();
+					Console.SetCursorPosition(14, 1);
+					Console.Write(snk.FoodEaten);
 				}
 				if (Console.KeyAvailable)
 				{
@@ -51,6 +56,7 @@ namespace Snake
 
 		static void InitGameOver()
 		{
+			Thread.Sleep(1000);
 			PrintGameOver();
 			ConsoleKeyInfo key = Console.ReadKey();
 			while (true)
