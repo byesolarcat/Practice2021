@@ -1,0 +1,73 @@
+body {
+    background-color: #EAEDF1;
+    color: #7B8A99;
+
+    display: flex;
+    flex-flow: row nowrap;  
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    height:100%;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-family: 'Signika', sans-serif;
+    font-weight: 300;
+    font-size: 30px;
+    white-space: nowrap;
+}
+
+p {
+    font-family: 'Lato', sans-serif;
+    font-size: 18px;
+}
+
+.personal-info-container {
+    display: flex;
+    flex-direction: row;
+    margin: 55px 0 0 10%;
+}
+
+.personal-info-card {
+    float: left;
+    height: 297px;
+    background-color: white;
+}
+
+    .avatar {
+        height: 145px;
+        margin: 37px 0 37px 29px;
+    }
+
+    .personal-info-card article {
+        display: inline-block;
+        margin: 52px 35px 0 44px;
+
+    }
+
+    .personal-info-card p {
+        margin-top: -22px;
+    }
+
+    .personal-info-card footer {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .personal-info-card-etc {
+        width: 25%;
+        height: 80px;
+    }
+
+    .personal-info-card-etc p {
+        color: white;
+        margin-top: 0;
+    }
+
+    .personal-info-card-etc img{
+        height: 15px;
+        text-align: center;
+    }
+
