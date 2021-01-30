@@ -8,7 +8,8 @@ body {
     align-content: center;
     align-items: center;
     height:100%;
-    margin: 0;
+    /* margin: 55px 80px 0 85px; */
+    margin: 55px 14% 0 15%;
     padding: 0;
 }
 
@@ -26,8 +27,7 @@ p {
 
 .personal-info-container {
     display: flex;
-    flex-direction: row;
-    margin: 55px 0 0 10%;
+    /* flex-direction; */
 }
 
 .personal-info-card {
@@ -43,7 +43,7 @@ p {
 
     .personal-info-card article {
         display: inline-block;
-        margin: 52px 35px 0 44px;
+        margin: 52px 30px 0 44px;
 
     }
 
@@ -58,7 +58,7 @@ p {
 
     .personal-info-card-etc {
         width: 25%;
-        height: 80px;
+        height: 78px;
     }
 
     .personal-info-card-etc p {
@@ -70,4 +70,54 @@ p {
         height: 15px;
         text-align: center;
     }
+
+.small-resume-card {
+    background-color: white;
+    display: flex;
+}
+
+    .small-resume-card article {
+        margin: 12px 0px 0px 31px;
+        font-size: 14px;
+        width: 49%;
+    }
+
+    .small-resume-article {
+        margin-top: -23px;
+        word-spacing: 2px;
+        line-height: 30px;
+        text-align: justify;
+    }
+
+    .small-resume-card h1 {
+        font-size: 39px;
+    }
+
+    .small-resume-card address {
+        margin-left: 80px;
+        margin-top: 10px;
+
+        text-align: center;
+        vertical-align: middle;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+        .small-resume-card address p{
+            font-size: 22px;
+            font-style: normal;
+
+            line-height: 44px;
+            text-align: justify;
+        }
+
+    .small-resume-card hr {
+        width: 200px;
+    }
+
+
+
+    
 
