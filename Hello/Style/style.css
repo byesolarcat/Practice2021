@@ -3,21 +3,20 @@ body {
     color: #7B8A99;
 
     display: flex;
-    flex-flow: column nowrap;
+    flex-flow: row nowrap;  
     justify-content: center;
     align-content: center;
-    /* align-items: center; */
-
+    align-items: center;
     height:100%;
+    /* margin: 55px 80px 0 85px; */
     margin: 55px 14% 0 15%;
-
-    /* overflow-x: visible; */
+    padding: 0;
 }
 
 h1 {
     font-family: 'Signika', sans-serif;
     font-weight: 300;
-    font-size: 26px;
+    font-size: 30px;
     white-space: nowrap;
 }
 
@@ -28,199 +27,95 @@ p {
 
 .personal-info-container {
     display: flex;
-    flex-flow: row nowrap;
-    /* justify-content: center; */
-    align-content: center;
-    align-items: center;
+    /* flex-direction; */
 }
 
 .personal-info-card {
-    background-color: white;
-    /* padding: 36px 34px 0px 27px; */
+    float: left;
     height: 297px;
+    background-color: white;
 }
 
     .avatar {
-        margin: 36px 0 37px 29px;
         height: 145px;
-        border-radius: 50%;
+        margin: 37px 0 37px 29px;
     }
 
     .personal-info-card article {
-        margin: 67px 30px 0 44px;
-        line-height: 9px;
+        display: inline-block;
+        margin: 52px 30px 0 44px;
+
+    }
+
+    .personal-info-card p {
+        margin-top: -22px;
     }
 
     .personal-info-card footer {
         display: flex;
-        flex-direction: row nowrap;
-        align-content: center;
-        align-items: center;
+        flex-direction: row;
     }
 
     .personal-info-card-etc {
         width: 25%;
         height: 78px;
-
-        display: flex;
-        flex-flow: column nowrap;  
-        justify-content: center;
-        align-items: center;
     }
 
     .personal-info-card-etc p {
         color: white;
-        font-size: 14px;
-        margin-top: 10px;
-        text-transform:uppercase;
+        margin-top: 0;
     }
 
     .personal-info-card-etc img{
         height: 15px;
-        margin-top: 13px;
+        text-align: center;
     }
 
 .small-resume-card {
     background-color: white;
     display: flex;
-    flex-direction: column;
-    height: 297px;
 }
-    .resume-and-contacts {
-        display: flex;
+
+    .small-resume-card article {
+        margin: 12px 0px 0px 31px;
+        font-size: 14px;
+        width: 49%;
     }
 
-        .small-resume-card article {
-            padding: 12px 40px 0px 31px;
-            width: 57%;
+    .small-resume-article {
+        margin-top: -23px;
+        word-spacing: 2px;
+        line-height: 30px;
+        text-align: justify;
+    }
 
-            font-size: 14px;
-        }
+    .small-resume-card h1 {
+        font-size: 39px;
+    }
 
-            .small-resume-card article p {
-                margin-top: -23px;
+    .small-resume-card address {
+        margin-left: 80px;
+        margin-top: 10px;
 
-                word-spacing: 2px;
-                line-height: 30px;
-                text-align: justify;
-            }
+        text-align: center;
+        vertical-align: middle;
 
-            .small-resume-card article h1 {
-                font-size: 39px;
-            }
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
 
-        .small-resume-card address {
-            padding: 98px 50px 0 30px;
-            
+        .small-resume-card address p{
+            font-size: 22px;
+            font-style: normal;
+
+            line-height: 44px;
             text-align: justify;
-
-            display: flex;
-            flex-direction: column;
-            align-content: center;
-            align-items: center;
         }
 
-            .small-resume-card address p{
-                color: #33495F;
-                font-size: 22px;
-                font-style: normal;
-
-                line-height: 44px;
-                
-                margin: 0;
-            }
-
-            .small-resume-card hr {
-                width: 268px;
-                border-top: solid black 1px;
-                margin-top: 27px;
-            }
-    
-    .small-resume-card footer {
-        padding: 8px 0 0 28px;
+    .small-resume-card hr {
+        width: 200px;
     }
-    .small-resume-card footer img{
-        height: 20px;
-        margin-right: 46px;
-    }
-
-main {
-    margin-top: 35px;
-
-    display: flex;
-    /* justify-content: center; */
-    /* align-content: center; */
-    /* align-items: center; */
-}
-
-.left-side-cards{
-    margin: 0 auto;
-
-    display: flex;
-    flex-flow: column;
-}
-
-.right-side-cards {
-    display: flex;
-    flex-flow: column;
-}
-
-.workplace-card{
-    padding: 13px 0 0 22px;
-    width: 610px;
-
-    background-color: white;
-}
-
-    .workplace-card footer {
-        display: flex;
-        margin: 50px 0 20px -4px;
-    }
-
-    .workplace-card footer button {
-        background-color: #16c4ec;
-        margin: -8px 0 5px 30px;
-        width: 216px;
-
-        border-style: unset;
-        border-radius: 3px;
-
-        font-family : inherit;
-        font-family: 'Lato', sans-serif;
-        font-size: 1em;
-        color:white;
-    }
-
-    .workplace-card footer .checkmark {
-        margin-right: 45px;
-    }
-
-.workplace-description {
-    color: #ABB3BE;
-    font-size: 18px;
-    margin-left: 5px;
-}
-
-.position {
-    color: #04BCA6;
-    font-weight: 400;
-    font-size: 20px;
-    word-spacing: 5px;
-    font-family: 'Signika Negative', sans-serif;
-    margin-top: -17px;
-    margin-bottom: 33px;
-}
-
-.checkmark{
-    font-size: 16px;
-    padding-left: 6px;
-    margin-top: -1px;
-}
-
-    .checkmark img {
-        padding-right: 5px;
-    }
-
 
 
 
