@@ -49,7 +49,7 @@ namespace Snake
 				{
 					snk.SetMovementDirection(Console.ReadKey());
 				}
-				Thread.Sleep(50);
+				Thread.Sleep(150);
 				snk.Move();
 			}
 		}

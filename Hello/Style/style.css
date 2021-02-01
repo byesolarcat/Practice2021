@@ -7,11 +7,10 @@ body {
     justify-content: center;
     align-content: center;
     /* align-items: center; */
+    align-self: center;
 
     height:100%;
-    margin: 55px 14% 0 15%;
-
-    /* overflow-x: visible; */
+    margin: 55px 14% 100px 15%;
 }
 
 h1 {
@@ -29,15 +28,15 @@ p {
 .personal-info-container {
     display: flex;
     flex-flow: row nowrap;
-    /* justify-content: center; */
     align-content: center;
     align-items: center;
+    width: 500px;
 }
 
 .personal-info-card {
     background-color: white;
-    /* padding: 36px 34px 0px 27px; */
     height: 297px;
+    border-radius: 2px;
 }
 
     .avatar {
@@ -72,7 +71,7 @@ p {
         color: white;
         font-size: 14px;
         margin-top: 10px;
-        text-transform:uppercase;
+        text-transform: uppercase;
     }
 
     .personal-info-card-etc img{
@@ -85,13 +84,15 @@ p {
     display: flex;
     flex-direction: column;
     height: 297px;
+
+    border-radius: 3px;
 }
     .resume-and-contacts {
         display: flex;
     }
 
         .small-resume-card article {
-            padding: 12px 40px 0px 31px;
+            padding: 12px 33px 0px 31px;
             width: 57%;
 
             font-size: 14px;
@@ -110,9 +111,9 @@ p {
             }
 
         .small-resume-card address {
-            padding: 98px 50px 0 30px;
-            
-            text-align: justify;
+            padding: 98px 39px 0px 30px;
+
+            text-align: center;
 
             display: flex;
             flex-direction: column;
@@ -122,9 +123,11 @@ p {
 
             .small-resume-card address p{
                 color: #33495F;
+                font-family: 'Signika', sans-serif;
+                font-weight: 200;
                 font-size: 22px;
                 font-style: normal;
-
+                letter-spacing: 0.6px;
                 line-height: 44px;
                 
                 margin: 0;
@@ -146,41 +149,69 @@ p {
 
 main {
     margin-top: 35px;
-
     display: flex;
-    /* justify-content: center; */
-    /* align-content: center; */
-    /* align-items: center; */
 }
 
-.left-side-cards{
-    margin: 0 auto;
-
-    display: flex;
-    flex-flow: column;
+.left-side-cards {
+    padding-right: 26px;
 }
+
+.divider {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+}
+    .timeline {
+        background-color: #DBE1E8;
+        width: 6px;
+        height: 1135px;
+    }
 
 .right-side-cards {
-    display: flex;
-    flex-flow: column;
+    padding-left: 31px;
 }
-
 .workplace-card{
-    padding: 13px 0 0 22px;
+    padding: 11px 0 0px 25px;
+    margin-bottom: 34px;
     width: 610px;
 
     background-color: white;
+
+    border-radius: 3px;
 }
+    .workplace-card h1 {
+        color: #374C61;
+        font-size: 25px;
+        word-spacing: 2px;
+        margin-right: 50px;
+    }
 
     .workplace-card footer {
-        display: flex;
-        margin: 50px 0 20px -4px;
+        display: block;
+        padding: 16px 0px 17px 5px;
+        margin-left: -5px;
+    }
+
+    .workplace-card footer span {
+        color: #9EA7B4;
+        margin-left: -1px;
+        margin-right: 55px;
+        font-size: 15px;
+        letter-spacing: 0.01px;
+    }
+
+    .workplace-card footer img {
+        height: 14px;
     }
 
     .workplace-card footer button {
+        display: block;
         background-color: #16c4ec;
-        margin: -8px 0 5px 30px;
-        width: 216px;
+        width: 218px;
+        height: 38px;
+
+        margin: -42px 21px 0 0px;
 
         border-style: unset;
         border-radius: 3px;
@@ -189,37 +220,132 @@ main {
         font-family: 'Lato', sans-serif;
         font-size: 1em;
         color:white;
+
+        float: right;
     }
 
-    .workplace-card footer .checkmark {
-        margin-right: 45px;
+.grey-workplace-card {
+    background-color: #DBE1E8;
+    padding-top: 15px;
+    width: 603px;
+}
+
+    .grey-workplace-card h1 {
+        font-size: 23px;
+        word-spacing: 0.05px;
     }
+
+    .grey-workplace-card .position {
+        color: #00B9D8;
+        font-size: 18px;
+        margin-top: -14px;
+        word-spacing: 0.05px;
+    }
+    .grey-workplace-card .workplace-description {
+        color: #7A8698;
+        font-size: 15px;
+        word-spacing: 0.8px;
+    }
+
+    .grey-workplace-card footer {
+        margin-top: 20px;
+        margin-left: -10px;
+    }
+
+    .grey-workplace-card footer .checkmark span{
+        font-size: 13px;
+    }
+
+    .grey-workplace-card footer span {
+        margin-right: 64px;
+        letter-spacing: 0.001px;
+        color: #33495F;
+    }
+
+    .grey-workplace-card footer button {
+        background-color: #10CDC1;
+        width: 218px;
+    }
+
+.marked-text {
+    color: #33495F;
+    margin: 33px 0;
+    word-spacing: 0.6px;
+    margin-top: 33px;
+    margin-bottom: 33px;
+}
 
 .workplace-description {
     color: #ABB3BE;
     font-size: 18px;
-    margin-left: 5px;
+    margin-left: 13px;
+    word-spacing: 0.0001px;
+    font-family: 'Lato', sans-serif;
 }
 
 .position {
     color: #04BCA6;
-    font-weight: 400;
-    font-size: 20px;
-    word-spacing: 5px;
+    
     font-family: 'Signika Negative', sans-serif;
-    margin-top: -17px;
-    margin-bottom: 33px;
+    font-weight: 400;
+    font-size: 21px;
+    word-spacing: 0.01px;
+    letter-spacing: 0.08px;
+
+    margin-top: -16px;
+    margin-left: -2px;
 }
 
 .checkmark{
     font-size: 16px;
     padding-left: 6px;
     margin-top: -1px;
+    vertical-align: baseline;
 }
 
-    .checkmark img {
-        padding-right: 5px;
-    }
+.checkmark img {
+    padding-right: 7px;
+}
+
+.rating {
+    float: right;
+    margin: -30px 27px 0 0;
+}
+
+.hobbies-and-skills {
+    background-color: white;
+    padding: 19px 0px 19px 22px;
+    border-radius: 1px;
+}
+
+.hobbies {
+    display: flex;
+}
+
+.hobby{
+    text-align: center;
+    padding-right: 23.5px;
+}
+
+.hobby:last-child {
+    padding-right: 0px;
+    margin-left: -5px;
+}
+
+.hobby p {
+    margin-top: 7px;
+
+    font-size: 13px;
+    text-transform: uppercase;
+}
+
+.hobby img {
+    height: 77px;
+}
+
+
+
+
 
 
 
