@@ -4,9 +4,9 @@
 # Markdown
 
 Вы тоже можете узнать про markdown из статей:
-* [Wikipedia RU: Markdown] (https://ru.wikipedia.org/wiki/Markdown)
-* [Wikipedia EN: Markdown] (https://en.wikipedia.org/wiki/Markdown)
-* [GitHub Markdown Guide] (https://guides.github.com/features/mastering-markdown/)
+* [Wikipedia RU: Markdown](https://ru.wikipedia.org/wiki/Markdown)
+* [Wikipedia EN: Markdown](https://en.wikipedia.org/wiki/Markdown)
+* [GitHub Markdown Guide](https://guides.github.com/features/mastering-markdown/)
 
 ## Markdown в деталях
 Title | Description
@@ -23,4 +23,4 @@ Open format? | yes[7]
 Website | http://daringfireball.net/projects/markdown
 
 ## Реальный пример
-https://github.com/Microsoft/TypeScript/blob/master/README.md
+[Ссылка](https://github.com/Microsoft/TypeScript/blob/master/README.md)
