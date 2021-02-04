@@ -28,9 +28,17 @@ canvas {
 }
 
 #score {
+    display: flex;
+    flex-direction: column;
+}
+
+#score, #mannascore {
     float: right;
+    text-align: left;
     color: white;
     font-size: 2em;
+    font-family: serif;
+    
 }
 
 .key {
