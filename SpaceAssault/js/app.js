@@ -73,10 +73,16 @@ function placeMegaliths() {
     megalithsNum = Math.floor(megalithsNum);
 
     for(var i = 0; i < megalithsNum; i++) {
+        var spritepos = [];
+        if(Math.random() > 0.5) {
+            spritepos = [3, 213]
+        } else {
+            spritepos = [3, 272]
+        }
         megaliths.push({
             pos: [150 + Math.random() * (canvas.width - 200),
                 Math.random() * (canvas.height - 50)],
-            sprite: new Sprite('img/sprites_02.png', [3,213], [55, 58], 0)
+            sprite: new Sprite('img/sprites_02.png', spritepos, [55, 58], 0, [1, 0], 'vertical')
         });
     }
 }
@@ -136,6 +142,10 @@ function updateEntities(dt) {
             explosions.splice(i, 1);
             i--;
         }
+    }
+
+    for(var i = 0; i < megaliths.length; i++) {
+        megaliths[i].sprite.update(dt);
     }
 }
 
@@ -229,7 +239,11 @@ function checkCollisions(dt) {
             var mOffsetPos = [mpos[0] + 50, mpos[1] ]
             if(boxCollides(pos, size, mOffsetPos, msize) && enemies[i] != undefined) {
                 enemies[i].pos[0] += 50 * dt;
-                enemies[i].pos[1] += 80 * dt;
+                if(enemies[i].pos[1] > mpos[1]) {
+                    enemies[i].pos[1] += 80 * dt;
+                } else {
+                    enemies[i].pos[1] -= 80 * dt;
+                }
             }
         }
 
