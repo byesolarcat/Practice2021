@@ -10,53 +10,29 @@ namespace Tanks
 {
 	public abstract class EntityModel
 	{
-		public PictureBox pictureBox;
-		public Bitmap[] images;
+		protected Bitmap[] images;
+		public Bitmap CurrentImage;
 
-		public Position Coordinates { get; set; }
+		public Position Coordinates { get; set; } //Top-left corner
+
+		public int Left => Coordinates.X;
+		public int Right => Coordinates.X + Width;
+		public int Top => Coordinates.Y;
+		public int Bottom => Coordinates.Y + Height;
+
+		public int Width { get; }
+		public int Height { get; }
+
 		public Direction direction;
 		public int speed;
 		
 		public bool isBuletCollisable;
 
-		public PictureBox CreateEntityPictureBox(Bitmap image, Point location)
+		public EntityModel(Position coordinates, int width, int height)
 		{
-			pictureBox = new PictureBox();
-			pictureBox.Image = image;
-			pictureBox.Size = new Size(36, 36);
-			pictureBox.BackColor = Color.Transparent;
-			pictureBox.Location = location;
-
-			return pictureBox;
-		}
-
-		public void Move()
-		{
-			switch (direction)
-			{
-				case Direction.Right:
-					{
-						pictureBox.Left += speed;
-						break;
-					}
-				case Direction.Left:
-					{
-						pictureBox.Left -= speed;
-						break;
-					}
-				case Direction.Up:
-					{
-						pictureBox.Top -= speed;
-						break;
-					}
-				case Direction.Down:
-					{
-						pictureBox.Top += speed;
-						break;
-					}
-			}
-			int index = (int)direction;
-			pictureBox.Image = images[index];
+			this.Coordinates = coordinates;
+			this.Width = width;
+			this.Height = height;
 		}
 	}
 }

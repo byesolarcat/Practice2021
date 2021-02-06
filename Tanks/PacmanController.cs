@@ -10,44 +10,61 @@ namespace Tanks
 {
 	public class PacmanController
 	{
-		public List<IMovable> movableEntities;
-		public List<Tank> tanks;
-		public Kolobok kolobok;
+		public int Score { get; set; }
+		public List<IMovable> MovableEntities;
+		public List<EntityModel> DynamicEntities;
 
-		public List<Wall> walls;
+		private List<Tank> Tanks { get; set; }
+		public List<Wall> Walls { get; set; }
+		public List<Apple> Apples { get; set; }
+
+		public Kolobok Kolobok { get; set; }
+
+
 
 		public PacmanController()
 		{
-			kolobok = new Kolobok();
-			movableEntities = new List<IMovable>();
-			walls = new List<Wall>();
-			tanks = new List<Tank>();
+			Score = 0;
 
-			movableEntities.Add(kolobok);
+			Walls = new List<Wall>();
+			InitWalls();
+
+			Kolobok = new Kolobok(new Position(170, 420), 36, 36);
+			DynamicEntities = new List<EntityModel>();
+			MovableEntities = new List<IMovable>();
+			Tanks = new List<Tank>();
+			Apples = new List<Apple>();
+
+			MovableEntities.Add(Kolobok);
+			DynamicEntities.Add(Kolobok);
 		}
 
 		public void KeyIsDown_Handler(object sender, KeyEventArgs e)
 		{
 			switch (e.KeyCode)
 			{
+				case Keys.D:
 				case Keys.Right:
 					{
-						kolobok.direction = Direction.Right;
+						Kolobok.direction = Direction.Right;
 						break;
 					}
+				case Keys.A:
 				case Keys.Left:
 					{
-						kolobok.direction = Direction.Left;
+						Kolobok.direction = Direction.Left;
 						break;
 					}
+				case Keys.W:
 				case Keys.Up:
 					{
-						kolobok.direction = Direction.Up;
+						Kolobok.direction = Direction.Up;
 						break;
 					}
+				case Keys.S:
 				case Keys.Down:
 					{
-						kolobok.direction = Direction.Down;
+						Kolobok.direction = Direction.Down;
 						break;
 					}
 			}
@@ -55,70 +72,229 @@ namespace Tanks
 
 		public void CheckCollisions(Size clientSize)
 		{
-			CheckBounds(clientSize);
+			IsOutOfBounds(Kolobok, clientSize);
 
-			foreach(var wall in walls)
+			foreach (var wall in Walls)
 			{
-				if (IsBoxColiding(wall, kolobok))
+				if (IsBoxColiding(Kolobok, wall))
 				{
-					switch (kolobok.direction)
+					Direction collidingSide = ReturnCollidingSide(Kolobok, wall);
+					if (collidingSide != Direction.NONE)
 					{
-						case Direction.Right:
-							{
-								kolobok.pictureBox.Left -= kolobok.speed;
-								break;
-							}
-						case Direction.Left:
-							{
-								kolobok.pictureBox.Left += kolobok.speed;
-								break;
-							}
-						case Direction.Up:
-							{
-								kolobok.pictureBox.Top += kolobok.speed;
-								break;
-							}
-						case Direction.Down:
-							{
-								kolobok.pictureBox.Top -= kolobok.speed;
-								break;
-							}
+						CorrectPosition(collidingSide, Kolobok, wall);
+						SwitchDirection(Kolobok);
 					}
+				}
+				foreach (var tank in Tanks)
+				{
+					if (IsBoxColiding(tank, wall) || IsOutOfBounds(tank, clientSize))
+					{
+						SwitchDirection(tank);
+					}
+				}
+			}
+
+			foreach (var tank in Tanks)
+			{
+				if (IsBoxColiding(Kolobok, tank))
+				{
+					SwitchDirection(Kolobok); //TODO: GameOver screen
+				}
+				foreach (var anotherTank in Tanks)
+				{
+					if (!ReferenceEquals(anotherTank, tank) && (IsBoxColiding(tank, anotherTank)))
+					{
+						tank.Turn180();
+						anotherTank.Turn180();
+					}
+				}
+			}
+
+			foreach (var apple in Apples)
+			{
+				if (IsBoxColiding(Kolobok, apple))
+				{
+					Score++;
+					Apples.Remove(apple);
+					DynamicEntities.Remove(apple);
+					break;
 				}
 			}
 		}
 
-		public bool IsBoxColiding(EntityModel entity1, EntityModel entity2)
+		private bool IsBoxColiding(EntityModel entity1, EntityModel entity2)
 		{
-			return !(entity1.pictureBox.Right <= entity2.pictureBox.Left ||
-				entity1.pictureBox.Left > entity2.pictureBox.Right ||
-				entity1.pictureBox.Bottom <= entity2.pictureBox.Top ||
-				entity1.pictureBox.Top > entity2.pictureBox.Bottom);
+			return !(entity1.Right <= entity2.Left ||
+				entity1.Left > entity2.Right ||
+				entity1.Bottom <= entity2.Top ||
+				entity1.Top > entity2.Bottom);
 		}
 
-		private void CheckBounds(Size clientSize)
+		public bool IsSpawnColliding(EntityModel entity)
 		{
-			if(kolobok.pictureBox.Bottom > clientSize.Height)
+			foreach (var wall in Walls)
 			{
-				kolobok.pictureBox.Top = clientSize.Height - kolobok.pictureBox.Height;
+				if (IsBoxColiding(entity, wall))
+				{
+					return true;
+				}
 			}
-			else if (kolobok.pictureBox.Top < 0)
+			return false;
+		}
+
+		private bool IsOutOfBounds(EntityModel entity, Size clientSize)
+		{
+			if(entity.Bottom > clientSize.Height)
 			{
-				kolobok.pictureBox.Top = 0;
+				entity.Coordinates.Y = clientSize.Height - entity.Height;
+				return true;
 			}
-			else if (kolobok.pictureBox.Left < 0)
+			else if (entity.Top < 0)
 			{
-				kolobok.pictureBox.Left = 0;
+				entity.Coordinates.Y = 0;
+				return true;
 			}
-			else if (kolobok.pictureBox.Right > clientSize.Width)
+			else if (entity.Left < 0)
 			{
-				kolobok.pictureBox.Left = clientSize.Width - kolobok.pictureBox.Height;
+				entity.Coordinates.X = 0;
+				return true;
 			}
+			else if (entity.Right > clientSize.Width)
+			{
+				entity.Coordinates.X = clientSize.Width - entity.Height;
+				return true;
+			}
+			return false;
+		}
+
+		private Direction ReturnCollidingSide(EntityModel collidingEntity, EntityModel obstacle)
+		{
+			if (collidingEntity.Right <= obstacle.Left + 1)
+				return Direction.Right;
+			if (collidingEntity.Left + 1 >= obstacle.Right)
+				return Direction.Left;
+			if (collidingEntity.Top + 1 >= obstacle.Bottom)
+				return Direction.Up;
+			if (collidingEntity.Bottom >= obstacle.Top)
+				return Direction.Down;
+
+			return Direction.NONE;
+		}
+
+		private void CorrectPosition(Direction collisionDirection, EntityModel collidingEntity, EntityModel obstacle)
+		{
+			switch (collisionDirection)
+			{
+				case Direction.Right:
+					{
+						collidingEntity.Coordinates.X = obstacle.Left - collidingEntity.Width - 1;
+						break;
+					}
+				case Direction.Left:
+					{
+						collidingEntity.Coordinates.X = obstacle.Right + 1;
+						break;
+					}
+				case Direction.Up:
+					{
+						collidingEntity.Coordinates.Y = obstacle.Bottom + 1;
+						break;
+					}
+				case Direction.Down:
+					{
+						collidingEntity.Coordinates.Y = obstacle.Top - collidingEntity.Height - 1;
+						break;
+					}
+			}
+		}
+
+		public void SwitchDirection(IMovable entity)
+		{
+			entity.SwitchDirection();
 		}
 
 		public void MoveEntity(IMovable entity)
 		{
 			entity.Move();
+		}
+
+		public void SpawnTank()
+		{
+			if(Tanks.Count < 5)
+			{
+				Random rnd = new Random();
+				Position position = new Position(rnd.Next(0, 500), rnd.Next(0, 500));
+				Tank tank = new Tank(position, 36, 36);
+				if (!IsSpawnColliding(tank))
+				{
+					Tanks.Add(tank);
+					MovableEntities.Add(tank);
+					DynamicEntities.Add(tank);
+				}
+			}
+		}
+
+		public void SpawnApple()
+		{
+			if (Apples.Count < 5)
+			{
+				Random rnd = new Random();
+				Position position = new Position(rnd.Next(0, 500), rnd.Next(0, 500));
+				Apple apple = new Apple(position, 30, 34);
+				if (!IsSpawnColliding(apple))
+				{
+					Apples.Add(apple);
+					DynamicEntities.Add(apple);
+				}
+			}
+			
+		}
+
+		private void InitWalls()
+		{
+			Wall wall1 = new Wall(new Position(38, 38), 36, 144);
+			Wall wall2 = new Wall(new Position(116, 38), 36, 144);
+			Wall wall3 = new Wall(new Position(194, 38), 36, 108);
+			Wall wall4 = new Wall(new Position(278, 38), 36, 108);
+			Wall wall5 = new Wall(new Position(356, 38), 36, 144);
+			Wall wall6 = new Wall(new Position(434, 38), 36, 144);
+
+			Wall wall7 = new Wall(new Position(0, 226), 36, 36);
+			Wall wall8 = new Wall(new Position(77, 226), 72, 36);
+
+			Wall wall9 = new Wall(new Position(194, 192), 36, 36);
+			Wall wall10 = new Wall(new Position(278, 192), 36, 36);
+
+			Wall wall11 = new Wall(new Position(356, 226), 72, 36);
+			Wall wall12 = new Wall(new Position(473, 226), 36, 36);
+
+			Wall wall13 = new Wall(new Position(194, 273), 36, 108);
+			Wall wall14 = new Wall(new Position(278, 273), 36, 108);
+
+			Wall wall15 = new Wall(new Position(38, 307), 36, 108);
+			Wall wall16 = new Wall(new Position(116, 307), 36, 108);
+
+			Wall wall17 = new Wall(new Position(356, 307), 36, 108);
+			Wall wall18 = new Wall(new Position(434, 307), 36, 108);
+
+			Walls.Add(wall1);
+			Walls.Add(wall2);
+			Walls.Add(wall3);
+			Walls.Add(wall4);
+			Walls.Add(wall5);
+			Walls.Add(wall6);
+			Walls.Add(wall7);
+			Walls.Add(wall8);
+			Walls.Add(wall9);
+			Walls.Add(wall10);
+			Walls.Add(wall11);
+			Walls.Add(wall12);
+			Walls.Add(wall13);
+			Walls.Add(wall14);
+			Walls.Add(wall15);
+			Walls.Add(wall16);
+			Walls.Add(wall17);
+			Walls.Add(wall18);
 		}
 	}
 }

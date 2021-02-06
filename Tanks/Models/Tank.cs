@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 
 namespace Tanks
 {
-	public class Tank: EntityModel, IMovable
+	public class Tank : EntityModel, IMovable
 	{
-		public Tank()
+		Random rnd = new Random();
+
+		public Tank(Position coordinates, int width, int height) : base(coordinates, width, height)
 		{
 			direction = Direction.Right;
 			speed = 1;
@@ -19,33 +21,67 @@ namespace Tanks
 
 		public void Move()
 		{
-			Random rnd = new Random();
-			direction = (Direction) rnd.Next(1, 4);
 			switch (direction)
 			{
 				case Direction.Right:
 					{
-						pictureBox.Left += speed;
+						Coordinates.X += speed;
 						break;
 					}
 				case Direction.Left:
 					{
-						pictureBox.Left -= speed;
+						Coordinates.X -= speed;
 						break;
 					}
 				case Direction.Up:
 					{
-						pictureBox.Top -= speed;
+						Coordinates.Y -= speed;
 						break;
 					}
 				case Direction.Down:
 					{
-						pictureBox.Top += speed;
+						Coordinates.Y += speed;
 						break;
 					}
 			}
 			int index = (int)direction;
-			pictureBox.Image = images[index];
+			CurrentImage = images[index];
+		}
+
+		public void SwitchDirection()
+		{
+			Random rnd = new Random();
+			if ((rnd.NextDouble() < 1 - 0.1))
+			{
+				direction = (Direction)rnd.Next(1, 4);
+			}
+		}
+
+		public void Turn180()
+		{
+			switch (direction)
+			{
+				case Direction.Right:
+					{
+						direction = Direction.Left;
+						break;
+					}
+				case Direction.Left:
+					{
+						direction = Direction.Right;
+						break;
+					}
+				case Direction.Up:
+					{
+						direction = Direction.Down;
+						break;
+					}
+				case Direction.Down:
+					{
+						direction = Direction.Up;
+						break;
+					}
+			}
 		}
 
 		private void InitImages()

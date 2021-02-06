@@ -54,6 +54,7 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Misc\Position.cs" />
+    <Compile Include="Models\Apple.cs" />
     <Compile Include="Models\EntityModel.cs" />
     <Compile Include="Models\IMovable.cs" />
     <Compile Include="Models\Kolobok.cs" />
@@ -108,6 +109,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="img\tank\tank_up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\apple.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

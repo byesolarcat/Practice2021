@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Tanks
 {
-	public class Kolobok: EntityModel, IMovable
+	public class Kolobok : EntityModel, IMovable
 	{
-		public Kolobok()
+		public Kolobok(Position coordinates, int width, int height) : base(coordinates, width, height)
 		{
+			InitImages();
+
+			isBuletCollisable = true;
+
 			direction = Direction.Right;
 			speed = 1;
-
-			InitImages();
 		}
 
 		public void Move()
@@ -24,27 +27,54 @@ namespace Tanks
 			{
 				case Direction.Right:
 					{
-						pictureBox.Left += speed;
+						Coordinates.X += speed;
 						break;
 					}
 				case Direction.Left:
 					{
-						pictureBox.Left -= speed;
+						Coordinates.X -= speed;
 						break;
 					}
 				case Direction.Up:
 					{
-						pictureBox.Top -= speed;
+						Coordinates.Y -= speed;
 						break;
 					}
 				case Direction.Down:
 					{
-						pictureBox.Top += speed;
+						Coordinates.Y += speed;
 						break;
 					}
 			}
 			int index = (int)direction;
-			pictureBox.Image = images[index];
+			CurrentImage = images[index];
+		}
+
+		public void SwitchDirection()
+		{
+			switch (direction)
+			{
+				case Direction.Right:
+					{
+						direction = Direction.Left;
+						break;
+					}
+				case Direction.Left:
+					{
+						direction = Direction.Right;
+						break;
+					}
+				case Direction.Up:
+					{
+						direction = Direction.Down;
+						break;
+					}
+				case Direction.Down:
+					{
+						direction = Direction.Up;
+						break;
+					}
+			}
 		}
 
 		private void InitImages()

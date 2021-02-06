@@ -10,12 +10,19 @@ namespace Tanks
 {
 	public class Wall : EntityModel
 	{
-		public Wall(PictureBox pictureBox)
+		public Wall(Position coordinates, int width, int height) : base(coordinates, width, height)
 		{
+			InitImages();
+			CurrentImage = images[0];
+
 			isBuletCollisable = true;
-			this.pictureBox = pictureBox;
 		}
 
-		
+		private void InitImages()
+		{
+			images = new Bitmap[1];
+
+			images[0] = Properties.Resources.wall;
+		}
 	}
 }
