@@ -10,17 +10,20 @@ namespace Tanks
 {
 	public class PacmanController
 	{
-		public int Score { get; set; }
-		public List<IMovable> MovableEntities;
-		public List<EntityModel> DynamicEntities;
+		public int Score { get; private set; }
 
-		private List<Tank> Tanks { get; set; }
-		public List<Wall> Walls { get; set; }
-		public List<Apple> Apples { get; set; }
+		public List<IMovable> MovableEntities;
+		public List<EntityModel> DrawableEntities;
+
+		public List<Tank> Tanks { get; private set; }
+		public List<Wall> Walls { get; private set; }
+		public List<Apple> Apples { get; private set; }
+		private List<Bullet> invisibleBullets;
+		private List<Bullet> bullets;
 
 		public Kolobok Kolobok { get; set; }
 
-
+		public bool GameOver { get; private set; }
 
 		public PacmanController()
 		{
@@ -30,44 +33,15 @@ namespace Tanks
 			InitWalls();
 
 			Kolobok = new Kolobok(new Position(170, 420), 36, 36);
-			DynamicEntities = new List<EntityModel>();
+			DrawableEntities = new List<EntityModel>();
 			MovableEntities = new List<IMovable>();
 			Tanks = new List<Tank>();
 			Apples = new List<Apple>();
+			bullets = new List<Bullet>();
+			invisibleBullets = new List<Bullet>();
 
 			MovableEntities.Add(Kolobok);
-			DynamicEntities.Add(Kolobok);
-		}
-
-		public void KeyIsDown_Handler(object sender, KeyEventArgs e)
-		{
-			switch (e.KeyCode)
-			{
-				case Keys.D:
-				case Keys.Right:
-					{
-						Kolobok.direction = Direction.Right;
-						break;
-					}
-				case Keys.A:
-				case Keys.Left:
-					{
-						Kolobok.direction = Direction.Left;
-						break;
-					}
-				case Keys.W:
-				case Keys.Up:
-					{
-						Kolobok.direction = Direction.Up;
-						break;
-					}
-				case Keys.S:
-				case Keys.Down:
-					{
-						Kolobok.direction = Direction.Down;
-						break;
-					}
-			}
+			DrawableEntities.Add(Kolobok);
 		}
 
 		public void CheckCollisions(Size clientSize)
@@ -85,21 +59,56 @@ namespace Tanks
 						SwitchDirection(Kolobok);
 					}
 				}
+
 				foreach (var tank in Tanks)
 				{
-					if (IsBoxColiding(tank, wall) || IsOutOfBounds(tank, clientSize))
+					Direction collidingSide = ReturnCollidingSide(tank, wall);
+					if (IsBoxColiding(tank, wall))
+					{
+						CorrectPosition(collidingSide, tank, wall);
+						SwitchDirection(tank);
+					}
+					else if (IsOutOfBounds(tank, clientSize))
 					{
 						SwitchDirection(tank);
 					}
 				}
-			}
 
+				foreach (var bullet in bullets)
+				{
+					if (IsBoxColiding(wall, bullet))
+					{
+						bullets.Remove(bullet);
+						DrawableEntities.Remove(bullet);
+						MovableEntities.Remove(bullet);
+					}
+					if (IsBoxColiding(Kolobok, bullet))
+					{
+						GameOver = true;
+						break;
+					}
+				}
+
+				foreach (var invisibleBullet in invisibleBullets)
+				{
+					if (IsBoxColiding(wall, invisibleBullet))
+					{
+						invisibleBullets.Remove(invisibleBullet);
+						DrawableEntities.Remove(invisibleBullet);
+						MovableEntities.Remove(invisibleBullet);
+						break;
+					}
+				}
+			}
+			bool keepChecking = true;
 			foreach (var tank in Tanks)
 			{
 				if (IsBoxColiding(Kolobok, tank))
 				{
-					SwitchDirection(Kolobok); //TODO: GameOver screen
+					GameOver = true;
+					break;
 				}
+
 				foreach (var anotherTank in Tanks)
 				{
 					if (!ReferenceEquals(anotherTank, tank) && (IsBoxColiding(tank, anotherTank)))
@@ -107,6 +116,34 @@ namespace Tanks
 						tank.Turn180();
 						anotherTank.Turn180();
 					}
+				}
+
+				foreach (var bullet in bullets)
+				{
+					if (IsBoxColiding(tank, bullet))
+					{
+						Tanks.Remove(tank);
+						DrawableEntities.Remove(tank);
+						MovableEntities.Remove(tank);
+
+						bullets.Remove(bullet);
+						DrawableEntities.Remove(bullet);
+						MovableEntities.Remove(bullet);
+						keepChecking = false;
+						break;
+					}
+				}
+				if (!keepChecking) break;
+			}
+
+			foreach (var invisibleBullet in invisibleBullets)
+			{
+				if (IsBoxColiding(Kolobok, invisibleBullet))
+				{
+					Bullet bullet = invisibleBullet.shooter.Shoot();
+					DrawableEntities.Add(bullet);
+					MovableEntities.Add(bullet);
+					bullets.Add(bullet);
 				}
 			}
 
@@ -116,7 +153,7 @@ namespace Tanks
 				{
 					Score++;
 					Apples.Remove(apple);
-					DynamicEntities.Remove(apple);
+					DrawableEntities.Remove(apple);
 					break;
 				}
 			}
@@ -218,6 +255,18 @@ namespace Tanks
 			entity.Move();
 		}
 
+		public void CheckEnemyAhead(Tank tank)
+		{
+			Random rnd = new Random();
+			if (1 - rnd.NextDouble() > 0.993)
+			{
+				Bullet bullet = tank.ShootInvisibleBullet();
+				MovableEntities.Add(bullet);
+				invisibleBullets.Add(bullet);
+			}
+			
+		}
+
 		public void SpawnTank()
 		{
 			if(Tanks.Count < 5)
@@ -229,7 +278,7 @@ namespace Tanks
 				{
 					Tanks.Add(tank);
 					MovableEntities.Add(tank);
-					DynamicEntities.Add(tank);
+					DrawableEntities.Add(tank);
 				}
 			}
 		}
@@ -244,10 +293,49 @@ namespace Tanks
 				if (!IsSpawnColliding(apple))
 				{
 					Apples.Add(apple);
-					DynamicEntities.Add(apple);
+					DrawableEntities.Add(apple);
 				}
 			}
 			
+		}
+
+		public void KeyIsDown_Handler(object sender, KeyEventArgs e)
+		{
+			switch (e.KeyCode)
+			{
+				case Keys.D:
+				case Keys.Right:
+					{
+						Kolobok.direction = Direction.Right;
+						break;
+					}
+				case Keys.A:
+				case Keys.Left:
+					{
+						Kolobok.direction = Direction.Left;
+						break;
+					}
+				case Keys.W:
+				case Keys.Up:
+					{
+						Kolobok.direction = Direction.Up;
+						break;
+					}
+				case Keys.S:
+				case Keys.Down:
+					{
+						Kolobok.direction = Direction.Down;
+						break;
+					}
+				case Keys.Space:
+					{
+						Bullet bullet = Kolobok.Shoot();
+						DrawableEntities.Add(bullet);
+						MovableEntities.Add(bullet);
+						bullets.Add(bullet);
+						break;
+					}
+			}
 		}
 
 		private void InitWalls()

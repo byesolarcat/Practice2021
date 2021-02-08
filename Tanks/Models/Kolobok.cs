@@ -77,6 +77,41 @@ namespace Tanks
 			}
 		}
 
+		public Bullet Shoot()
+		{
+			switch (direction)
+			{
+				case Direction.Right:
+					{
+						return new Bullet(
+							new Position(Right, Top + Width / 2),
+							4, 4, direction, Properties.Resources.Bullet);
+					}
+				case Direction.Left:
+					{
+						return new Bullet(
+							new Position(Left, Top + Width / 2),
+							4, 4, direction, Properties.Resources.Bullet);
+					}
+				case Direction.Up:
+					{
+						return new Bullet(
+							new Position(Left + Width / 2, Top),
+							4, 4, direction, Properties.Resources.Bullet);
+					}
+				case Direction.Down:
+					{
+						return new Bullet(
+							new Position(Left + Width / 2, Bottom),
+							4, 4, direction, Properties.Resources.Bullet);
+					}
+				default:
+					{
+						return null;
+					}
+			}
+		}
+
 		private void InitImages()
 		{
 			images = new Bitmap[4];

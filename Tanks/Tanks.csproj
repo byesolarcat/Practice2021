@@ -55,6 +55,7 @@
     </Compile>
     <Compile Include="Misc\Position.cs" />
     <Compile Include="Models\Apple.cs" />
+    <Compile Include="Models\Bullet.cs" />
     <Compile Include="Models\EntityModel.cs" />
     <Compile Include="Models\IMovable.cs" />
     <Compile Include="Models\Kolobok.cs" />
@@ -112,6 +113,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="img\apple.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\Bullet.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\gameOver.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

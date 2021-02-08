@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Tanks
 {
@@ -80,6 +76,75 @@ namespace Tanks
 					{
 						direction = Direction.Up;
 						break;
+					}
+			}
+		}
+		public Bullet Shoot()
+		{
+			switch (direction)
+			{
+				case Direction.Right:
+					{
+						return new Bullet(
+							new Position(Right, Top + Width / 2),
+							4, 4, direction, Properties.Resources.Bullet, this);
+					}
+				case Direction.Left:
+					{
+						return new Bullet(
+							new Position(Left, Top + Width / 2),
+							4, 4, direction, Properties.Resources.Bullet, this);
+					}
+				case Direction.Up:
+					{
+						return new Bullet(
+							new Position(Left + Width / 2, Top),
+							4, 4, direction, Properties.Resources.Bullet, this);
+					}
+				case Direction.Down:
+					{
+						return new Bullet(
+							new Position(Left + Width / 2, Bottom),
+							4, 4, direction, Properties.Resources.Bullet, this);
+					}
+				default:
+					{
+						return null;
+					}
+			}
+		}
+
+		public Bullet ShootInvisibleBullet()
+		{
+			switch (direction)
+			{
+				case Direction.Right:
+					{
+						return new Bullet(
+							new Position(Right, Top + Width / 2),
+							4, 4, direction, new Bitmap(4, 4), this);
+					}
+				case Direction.Left:
+					{
+						return new Bullet(
+							new Position(Left, Top + Width / 2),
+							4, 4, direction, new Bitmap(4, 4), this);
+					}
+				case Direction.Up:
+					{
+						return new Bullet(
+							new Position(Left + Width / 2, Top),
+							4, 4, direction, new Bitmap(4, 4), this);
+					}
+				case Direction.Down:
+					{
+						return new Bullet(
+							new Position(Left + Width / 2, Bottom),
+							4, 4, direction, new Bitmap(4, 4), this);
+					}
+				default:
+					{
+						return null;
 					}
 			}
 		}

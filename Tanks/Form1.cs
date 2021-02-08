@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Tanks
@@ -20,10 +15,10 @@ namespace Tanks
 		{
 			InitializeComponent();
 			timer1.Enabled = false;
-			InitEntities();
+			InitGameField();
 		}
 
-		private void InitEntities()
+		private void InitGameField()
 		{
 			if (pictureBox1.Image == null)
 			{
@@ -33,24 +28,34 @@ namespace Tanks
 			RenderWalls();
 		}
 
-		private void timer1_Tick(object sender, EventArgs e)
-		{
-			controller.SpawnTank();
-			controller.SpawnApple();
-			UpdateEntities();
-			scoreLabel.Text = "Score: " + controller.Score;
-		}
-
 		private void UpdateEntities()
 		{
-			controller.MoveEntity(controller.Kolobok);
-			foreach (var tank in controller.MovableEntities)
+			foreach (var entity in controller.MovableEntities)
 			{
-				controller.MoveEntity(tank);
+				controller.MoveEntity(entity);
+			}
+			foreach (var tank in controller.Tanks)
+			{
+				controller.CheckEnemyAhead(tank);
 			}
 			controller.CheckCollisions(this.ClientSize);
 			
+			if(controller.GameOver)
+			{
+				InitGameOver();
+				timer1.Enabled = false;
+			}
 			RenderEntitites();
+		}
+
+		private void InitGameOver()
+		{
+			Bitmap bmp = new Bitmap(Properties.Resources.gameOver);
+			using (Graphics g = Graphics.FromImage(bmp))
+			{
+				g.DrawImage(bmp, new Point(0, 0));
+			}
+			pictureBox1.Image = bmp;
 		}
 
 		private void RenderEntitites()
@@ -59,7 +64,7 @@ namespace Tanks
 			Bitmap bmp = new Bitmap(this.pictureBox1.Image);
 			using (Graphics g = Graphics.FromImage(bmp))
 			{
-				foreach (var entity in controller.DynamicEntities)
+				foreach (var entity in controller.DrawableEntities)
 				{
 					g.DrawImageUnscaledAndClipped(entity.CurrentImage,
 						new Rectangle(new Point(entity.Coordinates.X, entity.Coordinates.Y), new Size(entity.Width, entity.Height)));
@@ -67,22 +72,6 @@ namespace Tanks
 				
 			}
 			pictureBox1.Image = bmp;
-		}
-
-		private void RenderEntity(EntityModel entity)
-		{
-			Bitmap bmp = new Bitmap(this.pictureBox1.Image);
-			using (Graphics g = Graphics.FromImage(bmp))
-			{
-				g.DrawImageUnscaledAndClipped(entity.CurrentImage,
-					new Rectangle(new Point(entity.Coordinates.X, entity.Coordinates.Y), new Size(36,36)));
-			}
-			pictureBox1.Image = bmp;
-		}
-
-		private void Form1_KeyDown(object sender, KeyEventArgs e)
-		{
-			controller.KeyIsDown_Handler(sender, e);
 		}
 
 		private void RenderWalls()
@@ -108,6 +97,19 @@ namespace Tanks
 				}
 			}
 			pictureBox1.Image = wallsBitmap;
+		}
+
+		private void timer1_Tick(object sender, EventArgs e)
+		{
+			controller.SpawnTank();
+			controller.SpawnApple();
+			UpdateEntities();
+			scoreLabel.Text = "Score: " + controller.Score;
+		}
+
+		private void Form1_KeyDown(object sender, KeyEventArgs e)
+		{
+			controller.KeyIsDown_Handler(sender, e);
 		}
 
 		private void startGameButton_Click(object sender, EventArgs e)
