@@ -81,6 +81,7 @@ namespace Tanks
 						bullets.Remove(bullet);
 						DrawableEntities.Remove(bullet);
 						MovableEntities.Remove(bullet);
+						break;
 					}
 					if (IsBoxColiding(Kolobok, bullet))
 					{
@@ -103,6 +104,19 @@ namespace Tanks
 			bool keepChecking = true;
 			foreach (var tank in Tanks)
 			{
+				foreach (var invisibleBullet in invisibleBullets)
+				{
+					if (IsBoxColiding(Kolobok, invisibleBullet) && !bullets.Exists(bullet => bullet.shooter == tank))
+					{
+						Bullet bullet = invisibleBullet.shooter.Shoot();
+						DrawableEntities.Add(bullet);
+						MovableEntities.Add(bullet);
+						bullets.Add(bullet);
+						break;
+					}
+				}
+
+
 				if (IsBoxColiding(Kolobok, tank))
 				{
 					GameOver = true;
@@ -136,16 +150,8 @@ namespace Tanks
 				if (!keepChecking) break;
 			}
 
-			foreach (var invisibleBullet in invisibleBullets)
-			{
-				if (IsBoxColiding(Kolobok, invisibleBullet))
-				{
-					Bullet bullet = invisibleBullet.shooter.Shoot();
-					DrawableEntities.Add(bullet);
-					MovableEntities.Add(bullet);
-					bullets.Add(bullet);
-				}
-			}
+			
+
 
 			foreach (var apple in Apples)
 			{
@@ -175,6 +181,17 @@ namespace Tanks
 				{
 					return true;
 				}
+			}
+			foreach (var tank in Tanks)
+			{
+				if (IsBoxColiding(entity, tank))
+				{
+					return true;
+				}
+			}
+			if (IsBoxColiding(entity, Kolobok))
+			{
+				return true;
 			}
 			return false;
 		}
@@ -258,7 +275,7 @@ namespace Tanks
 		public void CheckEnemyAhead(Tank tank)
 		{
 			Random rnd = new Random();
-			if (1 - rnd.NextDouble() > 0.993)
+			if (1 - rnd.NextDouble() > 0.5)
 			{
 				Bullet bullet = tank.ShootInvisibleBullet();
 				MovableEntities.Add(bullet);

@@ -14,16 +14,16 @@ namespace Tanks
 		public Form1()
 		{
 			InitializeComponent();
-			timer1.Enabled = false;
+			mainGameTimer.Enabled = false;
 			InitGameField();
 		}
 
 		private void InitGameField()
 		{
-			if (pictureBox1.Image == null)
+			if (gameFieldPictureBox.Image == null)
 			{
-				Bitmap bmp = new Bitmap(gameField.Width, gameField.Height);
-				this.pictureBox1.Image = bmp;
+				Bitmap bmp = new Bitmap(gameFieldPictureBox.Width, gameFieldPictureBox.Height);
+				this.gameFieldPictureBox.Image = bmp;
 			}
 			RenderWalls();
 		}
@@ -34,34 +34,26 @@ namespace Tanks
 			{
 				controller.MoveEntity(entity);
 			}
-			foreach (var tank in controller.Tanks)
-			{
-				controller.CheckEnemyAhead(tank);
-			}
-			controller.CheckCollisions(this.ClientSize);
-			
-			if(controller.GameOver)
-			{
-				InitGameOver();
-				timer1.Enabled = false;
-			}
+			controller.CheckCollisions(this.gameFieldPictureBox.Size);
 			RenderEntitites();
 		}
 
 		private void InitGameOver()
 		{
-			Bitmap bmp = new Bitmap(Properties.Resources.gameOver);
+			gameFieldPictureBox.Image = Properties.Resources.gameOver;
+			Bitmap bmp = new Bitmap(this.gameFieldPictureBox.Image);
 			using (Graphics g = Graphics.FromImage(bmp))
 			{
-				g.DrawImage(bmp, new Point(0, 0));
+				g.DrawImageUnscaledAndClipped(Properties.Resources.gameOver,
+						new Rectangle(new Point(0, 0), gameFieldPictureBox.Size));
+
 			}
-			pictureBox1.Image = bmp;
 		}
 
 		private void RenderEntitites()
 		{
-			pictureBox1.Image = wallsBitmap;
-			Bitmap bmp = new Bitmap(this.pictureBox1.Image);
+			gameFieldPictureBox.Image = wallsBitmap;
+			Bitmap bmp = new Bitmap(this.gameFieldPictureBox.Image);
 			using (Graphics g = Graphics.FromImage(bmp))
 			{
 				foreach (var entity in controller.DrawableEntities)
@@ -71,12 +63,12 @@ namespace Tanks
 				}
 				
 			}
-			pictureBox1.Image = bmp;
+			gameFieldPictureBox.Image = bmp;
 		}
 
 		private void RenderWalls()
 		{
-			wallsBitmap = new Bitmap(this.pictureBox1.Image);
+			wallsBitmap = new Bitmap(this.gameFieldPictureBox.Image);
 			using (Graphics g = Graphics.FromImage(wallsBitmap))
 			{
 				foreach (var wall in controller.Walls)
@@ -96,15 +88,23 @@ namespace Tanks
 
 				}
 			}
-			pictureBox1.Image = wallsBitmap;
+			gameFieldPictureBox.Image = wallsBitmap;
 		}
 
 		private void timer1_Tick(object sender, EventArgs e)
 		{
-			controller.SpawnTank();
-			controller.SpawnApple();
-			UpdateEntities();
-			scoreLabel.Text = "Score: " + controller.Score;
+			if (!controller.GameOver)
+			{
+				controller.SpawnTank();
+				controller.SpawnApple();
+				UpdateEntities();
+				scoreLabel.Text = "Score: " + controller.Score;
+			}
+			else
+			{
+				InitGameOver();
+			}
+			
 		}
 
 		private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -114,8 +114,16 @@ namespace Tanks
 
 		private void startGameButton_Click(object sender, EventArgs e)
 		{
-			timer1.Enabled = true;
+			mainGameTimer.Enabled = true;
 			this.ActiveControl = null;
+		}
+
+		private void shootingTimer_Tick(object sender, EventArgs e)
+		{
+			foreach (var tank in controller.Tanks)
+			{
+				controller.CheckEnemyAhead(tank);
+			}
 		}
 	}
 }
