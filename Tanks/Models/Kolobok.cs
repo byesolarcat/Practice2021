@@ -11,7 +11,7 @@ namespace Tanks
 			Title = "Kolobok";
 
 			direction = Direction.Right;
-			speed = 1;
+			speed = 2;
 		}
 
 		public void Move()

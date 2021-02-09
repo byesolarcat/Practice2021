@@ -42,7 +42,7 @@ namespace Tanks
 			// mainGameTimer
 			// 
 			this.mainGameTimer.Enabled = true;
-			this.mainGameTimer.Interval = 25;
+			this.mainGameTimer.Interval = 30;
 			this.mainGameTimer.Tick += new System.EventHandler(this.timer1_Tick);
 			// 
 			// gameFieldPictureBox

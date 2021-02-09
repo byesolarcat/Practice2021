@@ -44,7 +44,7 @@ namespace Tanks
 
 		private void InitGameOver()
 		{
-			infoForm.Dispose();
+			if (infoForm  != null )infoForm.Dispose();
 			startGameButton.Enabled = true;
 			gameFieldPictureBox.Image = Properties.Resources.gameOver;
 			Bitmap bmp = new Bitmap(this.gameFieldPictureBox.Image);

@@ -15,7 +15,7 @@ namespace Tanks
 			CurrentImage = images[0];
 
 			this.direction = direction;
-			speed = 5;
+			speed = 3;
 
 			this.shooter = shooter;
 		}
