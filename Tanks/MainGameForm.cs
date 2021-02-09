@@ -5,21 +5,25 @@ using System.Windows.Forms;
 
 namespace Tanks
 {
-	public partial class Form1 : Form
+	public partial class MainGameForm : Form
 	{
 		public PacmanController controller = new PacmanController();
 
 		private Bitmap wallsBitmap;
 
-		public Form1()
+		EntitiesInfo infoForm;
+
+		public MainGameForm()
 		{
 			InitializeComponent();
 			mainGameTimer.Enabled = false;
-			InitGameField();
+			Bitmap bmp = new Bitmap(gameFieldPictureBox.Width, gameFieldPictureBox.Height);
+			this.gameFieldPictureBox.Image = bmp;
 		}
 
 		private void InitGameField()
 		{
+			controller = new PacmanController();
 			if (gameFieldPictureBox.Image == null)
 			{
 				Bitmap bmp = new Bitmap(gameFieldPictureBox.Width, gameFieldPictureBox.Height);
@@ -40,12 +44,14 @@ namespace Tanks
 
 		private void InitGameOver()
 		{
+			infoForm.Dispose();
+			startGameButton.Enabled = true;
 			gameFieldPictureBox.Image = Properties.Resources.gameOver;
 			Bitmap bmp = new Bitmap(this.gameFieldPictureBox.Image);
 			using (Graphics g = Graphics.FromImage(bmp))
 			{
 				g.DrawImageUnscaledAndClipped(Properties.Resources.gameOver,
-						new Rectangle(new Point(0, 0), gameFieldPictureBox.Size));
+						new Rectangle(new Point(0, 0), new Size(100, 100)));
 
 			}
 		}
@@ -107,15 +113,12 @@ namespace Tanks
 			
 		}
 
-		private void Form1_KeyDown(object sender, KeyEventArgs e)
-		{
-			controller.KeyIsDown_Handler(sender, e);
-		}
-
 		private void startGameButton_Click(object sender, EventArgs e)
 		{
+			InitGameField();
 			mainGameTimer.Enabled = true;
 			this.ActiveControl = null;
+			startGameButton.Enabled = false;
 		}
 
 		private void shootingTimer_Tick(object sender, EventArgs e)
@@ -124,6 +127,40 @@ namespace Tanks
 			{
 				controller.CheckEnemyAhead(tank);
 			}
+		}
+
+		private void MainGameForm_KeyDown(object sender, KeyEventArgs e)
+		{
+			controller.KeyIsDown_Handler(sender, e);
+			if (e.KeyCode == Keys.P)
+			{
+				infoForm = new EntitiesInfo(controller);
+				infoForm.StartPosition = FormStartPosition.Manual;
+				infoForm.Location = new Point(this.Location.X + this.Width, this.Location.Y);
+				infoForm.Show(this);
+			} 
+			else if (e.KeyCode == Keys.Y && controller.GameOver)
+			{
+				this.gameFieldPictureBox.Image = wallsBitmap;
+				InitGameField();
+			}
+		}
+
+		protected override void OnLostFocus(EventArgs e)
+		{
+			base.OnLostFocus(e);
+			this.Focus();
+		}
+
+		protected override void OnDeactivate(EventArgs e)
+		{
+			base.OnDeactivate(e);
+			this.Focus();
+		}
+
+		private void label1_Click(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

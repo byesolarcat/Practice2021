@@ -15,7 +15,6 @@ namespace Tanks
 			InitImages();
 			CurrentImage = images[0];
 
-			isBuletCollisable = true;
 		}
 
 		private void InitImages()

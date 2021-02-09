@@ -353,6 +353,7 @@ namespace Tanks
 						break;
 					}
 			}
+			
 		}
 
 		private void InitWalls()

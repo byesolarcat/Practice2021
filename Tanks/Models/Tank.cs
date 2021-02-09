@@ -5,12 +5,15 @@ namespace Tanks
 {
 	public class Tank : EntityModel, IMovable
 	{
+		private static int id;
 		Random rnd = new Random();
 
 		public Tank(Position coordinates, int width, int height) : base(coordinates, width, height)
 		{
 			direction = Direction.Right;
 			speed = 1;
+
+			Title = "Tank #" + id++;
 
 			InitImages();
 		}
