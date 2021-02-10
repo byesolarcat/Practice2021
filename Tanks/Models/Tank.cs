@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace Tanks
 {
-	public class Tank : EntityModel, IMovable
+	public class Tank : EntityModel, IMovable, IDrawable
 	{
 		private static int id;
 		Random rnd = new Random();
@@ -81,6 +81,12 @@ namespace Tanks
 						break;
 					}
 			}
+		}
+
+		public void Draw(Graphics g)
+		{
+			g.DrawImageUnscaledAndClipped(CurrentImage,
+						new Rectangle(new Point(Coordinates.X, Coordinates.Y), new Size(Width, Height)));
 		}
 		public Bullet Shoot()
 		{

@@ -4,9 +4,10 @@ using System.Windows.Forms;
 
 namespace Tanks
 {
-	public class Bullet : EntityModel, IMovable
+	public class Bullet : EntityModel, IMovable, IDrawable
 	{
 		public Tank shooter;
+
 		public Bullet(Position coordinates, int width, int height, Direction direction, Bitmap image, Tank shooter) : base(coordinates, width, height)
 		{
 			images = new Bitmap[1];
@@ -15,7 +16,7 @@ namespace Tanks
 			CurrentImage = images[0];
 
 			this.direction = direction;
-			speed = 3;
+			speed = 4;
 
 			this.shooter = shooter;
 		}
@@ -28,7 +29,7 @@ namespace Tanks
 			CurrentImage = images[0];
 
 			this.direction = direction;
-			speed = 15;
+			speed = 7;
 
 		}
 
@@ -59,6 +60,11 @@ namespace Tanks
 			}
 		}
 
+		public void Draw(Graphics g)
+		{
+			g.DrawImageUnscaledAndClipped(CurrentImage,
+						new Rectangle(new Point(Coordinates.X, Coordinates.Y), new Size(Width, Height)));
+		}
 
 		public void SwitchDirection()
 		{

@@ -2,7 +2,7 @@
 
 namespace Tanks
 {
-	public class Kolobok : EntityModel, IMovable
+	public class Kolobok : EntityModel, IMovable, IDrawable
 	{
 		public Kolobok(Position coordinates, int width, int height) : base(coordinates, width, height)
 		{
@@ -68,6 +68,12 @@ namespace Tanks
 						break;
 					}
 			}
+		}
+
+		public void Draw(Graphics g)
+		{
+			g.DrawImageUnscaledAndClipped(CurrentImage,
+						new Rectangle(new Point(Coordinates.X, Coordinates.Y), new Size(Width, Height)));
 		}
 
 		public Bullet Shoot()

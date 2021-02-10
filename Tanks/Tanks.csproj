@@ -52,6 +52,7 @@
     <Compile Include="EntitiesInfo.Designer.cs">
       <DependentUpon>EntitiesInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Misc\IDrawable.cs" />
     <Compile Include="Misc\Direction.cs" />
     <Compile Include="MainGameForm.cs">
       <SubType>Form</SubType>
@@ -63,8 +64,10 @@
     <Compile Include="Models\Apple.cs" />
     <Compile Include="Models\Bullet.cs" />
     <Compile Include="Models\EntityModel.cs" />
-    <Compile Include="Models\IMovable.cs" />
+    <Compile Include="Misc\IMovable.cs" />
+    <Compile Include="Models\Explosion.cs" />
     <Compile Include="Models\Kolobok.cs" />
+    <Compile Include="Models\River.cs" />
     <Compile Include="Models\Tank.cs" />
     <Compile Include="Models\Wall.cs" />
     <Compile Include="PacmanController.cs" />
@@ -128,6 +131,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="img\gameOver.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\river.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\explosions\explosion_end.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\explosions\explosion_middle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\explosions\explosion_start.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

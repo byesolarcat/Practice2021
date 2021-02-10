@@ -19,9 +19,10 @@ namespace Tanks
 			InitializeComponent();
 			this.controller = controller;
 			entities.Add(controller.Kolobok);
-			foreach (var tank in controller.Tanks)
+			foreach (var entity in controller.DrawableEntities)
 			{
-				entities.Add(tank);
+				if (entity is Tank || entity is Apple)
+					entities.Add((EntityModel)entity);
 			}
 			dataGridView1.DataSource = entities;
 			this.Focus();
@@ -31,9 +32,10 @@ namespace Tanks
 		{
 			entities.Clear();
 			entities.Add(controller.Kolobok);
-			foreach (var tank in controller.Tanks)
+			foreach (var entity in controller.DrawableEntities)
 			{
-				entities.Add(tank);
+				if (entity is Tank || entity is Apple)
+					entities.Add((EntityModel)entity);
 			}
 			dataGridView1.DataSource = entities;
 		}

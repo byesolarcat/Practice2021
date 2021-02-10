@@ -7,7 +7,7 @@ namespace Tanks
 {
 	public partial class MainGameForm : Form
 	{
-		public PacmanController controller = new PacmanController();
+		public PacmanController controller = new PacmanController(5, 5);
 
 		private Bitmap wallsBitmap;
 
@@ -23,13 +23,8 @@ namespace Tanks
 
 		private void InitGameField()
 		{
-			controller = new PacmanController();
-			if (gameFieldPictureBox.Image == null)
-			{
-				Bitmap bmp = new Bitmap(gameFieldPictureBox.Width, gameFieldPictureBox.Height);
-				this.gameFieldPictureBox.Image = bmp;
-			}
-			RenderWalls();
+			
+
 		}
 
 		private void UpdateEntities()
@@ -38,7 +33,7 @@ namespace Tanks
 			{
 				controller.MoveEntity(entity);
 			}
-			controller.CheckCollisions(this.gameFieldPictureBox.Size);
+			controller.LookForCollisions(this.gameFieldPictureBox.Size);
 			RenderEntitites();
 		}
 
@@ -58,43 +53,16 @@ namespace Tanks
 
 		private void RenderEntitites()
 		{
-			gameFieldPictureBox.Image = wallsBitmap;
-			Bitmap bmp = new Bitmap(this.gameFieldPictureBox.Image);
+			Bitmap bmp = new Bitmap(this.gameFieldPictureBox.Width, this.gameFieldPictureBox.Height);
 			using (Graphics g = Graphics.FromImage(bmp))
 			{
 				foreach (var entity in controller.DrawableEntities)
 				{
-					g.DrawImageUnscaledAndClipped(entity.CurrentImage,
-						new Rectangle(new Point(entity.Coordinates.X, entity.Coordinates.Y), new Size(entity.Width, entity.Height)));
+					entity.Draw(g);
 				}
-				
 			}
+
 			gameFieldPictureBox.Image = bmp;
-		}
-
-		private void RenderWalls()
-		{
-			wallsBitmap = new Bitmap(this.gameFieldPictureBox.Image);
-			using (Graphics g = Graphics.FromImage(wallsBitmap))
-			{
-				foreach (var wall in controller.Walls)
-				{
-					for(int i = 0; i < wall.Width; i += 36)
-					{
-						Point point = new Point(wall.Coordinates.X + i, wall.Coordinates.Y);
-						g.DrawImageUnscaledAndClipped(wall.CurrentImage,
-							new Rectangle(point, new Size(36, 36)));
-					}
-					for (int i = 0; i < wall.Height; i += 36)
-					{
-						Point point = new Point(wall.Coordinates.X, wall.Coordinates.Y + i);
-						g.DrawImageUnscaledAndClipped(wall.CurrentImage,
-							new Rectangle(point, new Size(36, 36)));
-					}
-
-				}
-			}
-			gameFieldPictureBox.Image = wallsBitmap;
 		}
 
 		private void timer1_Tick(object sender, EventArgs e)
@@ -108,7 +76,7 @@ namespace Tanks
 			}
 			else
 			{
-				InitGameOver();
+				controller = new PacmanController(5, 5);
 			}
 			
 		}

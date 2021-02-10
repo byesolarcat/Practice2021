@@ -83,6 +83,36 @@ namespace Tanks.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap explosion_end {
+            get {
+                object obj = ResourceManager.GetObject("explosion_end", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap explosion_middle {
+            get {
+                object obj = ResourceManager.GetObject("explosion_middle", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap explosion_start {
+            get {
+                object obj = ResourceManager.GetObject("explosion_start", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap gameOver {
             get {
                 object obj = ResourceManager.GetObject("gameOver", resourceCulture);
@@ -126,6 +156,16 @@ namespace Tanks.Properties {
         internal static System.Drawing.Bitmap kolobok_up {
             get {
                 object obj = ResourceManager.GetObject("kolobok_up", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap river {
+            get {
+                object obj = ResourceManager.GetObject("river", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

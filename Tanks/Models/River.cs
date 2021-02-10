@@ -1,20 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace Tanks
 {
-	public class Wall : EntityModel, IDrawable
+	public class River : EntityModel, IDrawable
 	{
-		public Wall(Position coordinates, int width, int height) : base(coordinates, width, height)
+		public River(Position coordinates, int width, int height) : base(coordinates, width, height)
 		{
 			InitImages();
 			CurrentImage = images[0];
-
 		}
 
 		public void Draw(Graphics g)
@@ -37,7 +32,7 @@ namespace Tanks
 		{
 			images = new Bitmap[1];
 
-			images[0] = Properties.Resources.wall;
+			images[0] = Properties.Resources.river;
 		}
 	}
 }
