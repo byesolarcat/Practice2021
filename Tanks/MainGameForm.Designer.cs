@@ -73,7 +73,7 @@ namespace Tanks
 			this.startGameButton.Name = "startGameButton";
 			this.startGameButton.Size = new System.Drawing.Size(128, 78);
 			this.startGameButton.TabIndex = 3;
-			this.startGameButton.Text = "Start Game";
+			this.startGameButton.Text = "Start";
 			this.startGameButton.UseVisualStyleBackColor = true;
 			this.startGameButton.Click += new System.EventHandler(this.startGameButton_Click);
 			// 
@@ -98,6 +98,7 @@ namespace Tanks
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.BackColor = System.Drawing.Color.White;
 			this.ClientSize = new System.Drawing.Size(680, 663);
 			this.Controls.Add(this.label1);
@@ -105,8 +106,9 @@ namespace Tanks
 			this.Controls.Add(this.gameFieldPictureBox);
 			this.Controls.Add(this.scoreLabel);
 			this.Margin = new System.Windows.Forms.Padding(4);
+			this.MaximizeBox = false;
 			this.Name = "MainGameForm";
-			this.Text = "MainGameForm";
+			this.Text = "Tanks";
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainGameForm_KeyDown);
 			((System.ComponentModel.ISupportInitialize)(this.gameFieldPictureBox)).EndInit();
 			this.ResumeLayout(false);

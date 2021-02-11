@@ -10,7 +10,7 @@ namespace Tanks
 	class Explosion: EntityModel, IDrawable
 	{
 		private int currentImageNum;
-		public Explosion(Position coordinates, int width, int height, Direction direction) : base(coordinates, width, height)
+		public Explosion(Position coordinates, int width, int height) : base(coordinates, width, height)
 		{
 			InitImages();
 			currentImageNum = 0;
@@ -18,11 +18,6 @@ namespace Tanks
 
 		public void Draw(Graphics g)
 		{
-			//for (int i = 0; i < images.Length; i++)
-			//{
-			//	g.DrawImageUnscaledAndClipped(images[i],
-			//			new Rectangle(new Point(Coordinates.X, Coordinates.Y), new Size(Width, Height)));
-			//}
 			CurrentImage = images[currentImageNum];
 			g.DrawImageUnscaledAndClipped(CurrentImage,
 						new Rectangle(new Point(Coordinates.X, Coordinates.Y), new Size(Width, Height)));

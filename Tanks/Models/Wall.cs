@@ -10,11 +10,14 @@ namespace Tanks
 {
 	public class Wall : EntityModel, IDrawable
 	{
+
+		public int Health { get; set; }
 		public Wall(Position coordinates, int width, int height) : base(coordinates, width, height)
 		{
 			InitImages();
 			CurrentImage = images[0];
 
+			Health = 40;
 		}
 
 		public void Draw(Graphics g)

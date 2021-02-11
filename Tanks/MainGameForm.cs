@@ -9,22 +9,15 @@ namespace Tanks
 	{
 		public PacmanController controller = new PacmanController(5, 5);
 
-		private Bitmap wallsBitmap;
-
 		EntitiesInfo infoForm;
 
 		public MainGameForm()
 		{
 			InitializeComponent();
+			this.FormBorderStyle = FormBorderStyle.FixedSingle;
 			mainGameTimer.Enabled = false;
 			Bitmap bmp = new Bitmap(gameFieldPictureBox.Width, gameFieldPictureBox.Height);
 			this.gameFieldPictureBox.Image = bmp;
-		}
-
-		private void InitGameField()
-		{
-			
-
 		}
 
 		private void UpdateEntities()
@@ -39,7 +32,7 @@ namespace Tanks
 
 		private void InitGameOver()
 		{
-			if (infoForm  != null )infoForm.Dispose();
+			if (infoForm != null) infoForm.Dispose();
 			startGameButton.Enabled = true;
 			gameFieldPictureBox.Image = Properties.Resources.gameOver;
 			Bitmap bmp = new Bitmap(this.gameFieldPictureBox.Image);
@@ -69,21 +62,21 @@ namespace Tanks
 		{
 			if (!controller.GameOver)
 			{
-				controller.SpawnTank();
-				controller.SpawnApple();
+				controller.SpawnTank(this.gameFieldPictureBox.Size);
+				controller.SpawnApple(this.gameFieldPictureBox.Size);
 				UpdateEntities();
 				scoreLabel.Text = "Score: " + controller.Score;
 			}
 			else
 			{
-				controller = new PacmanController(5, 5);
+				InitGameOver();
 			}
 			
 		}
 
 		private void startGameButton_Click(object sender, EventArgs e)
 		{
-			InitGameField();
+			controller = new PacmanController(5, 5);
 			mainGameTimer.Enabled = true;
 			this.ActiveControl = null;
 			startGameButton.Enabled = false;
@@ -109,8 +102,7 @@ namespace Tanks
 			} 
 			else if (e.KeyCode == Keys.Y && controller.GameOver)
 			{
-				this.gameFieldPictureBox.Image = wallsBitmap;
-				InitGameField();
+				InitGameOver();
 			}
 		}
 

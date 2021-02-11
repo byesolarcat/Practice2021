@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Threading;
 
 namespace Tanks
 {
@@ -56,12 +57,12 @@ namespace Tanks
 			DrawableEntities.Add(Kolobok);
 		}
 
-		public void SpawnTank()
+		public void SpawnTank(Size fieldSize)
 		{
 			if (Tanks.Count < maxTanks)
 			{
 				Random rnd = new Random();
-				Position position = new Position(rnd.Next(0, 500), rnd.Next(0, 500));
+				Position position = new Position(rnd.Next(0, fieldSize.Width - 36), rnd.Next(0, fieldSize.Height - 36));
 				Tank tank = new Tank(position, 36, 36);
 				if (!IsSpawnColliding(tank))
 				{
@@ -72,12 +73,12 @@ namespace Tanks
 			}
 		}
 
-		public void SpawnApple()
+		public void SpawnApple(Size fieldSize)
 		{
 			if (apples.Count < maxApples)
 			{
 				Random rnd = new Random();
-				Position position = new Position(rnd.Next(0, 500), rnd.Next(0, 500));
+				Position position = new Position(rnd.Next(0, fieldSize.Width - 30), rnd.Next(0, fieldSize.Height - 34));
 				Apple apple = new Apple(position, 30, 34);
 				if (!IsSpawnColliding(apple))
 				{
@@ -90,8 +91,12 @@ namespace Tanks
 		public void LookForCollisions(Size gameField)
 		{
 			CheckKolobokCollisions(gameField);
+			CheckWallCollisions();
 			CheckTanksCollisions(gameField);
+		}
 
+		private void CheckWallCollisions()
+		{
 			foreach (var wall in walls)
 			{
 				CheckAndCorrectCollision(Kolobok, wall);
@@ -100,14 +105,32 @@ namespace Tanks
 				{
 					if (IsBoxColiding(wall, bullet))
 					{
-						DrawableEntities.Add(new Explosion(new Position(bullet.Coordinates.X - 16, bullet.Coordinates.Y - 16), 32, 32, Direction.NONE));
+						DrawableEntities.Add(new Explosion(new Position(bullet.Coordinates.X - 16, bullet.Coordinates.Y - 16), 32, 32));
+
+						wall.Health -= 5;
+						if (wall.Health <= 0)
+						{
+							walls.Remove(wall);
+							DrawableEntities.Remove(wall);
+							for (int i = 0; i < wall.Width; i += 36)
+							{
+								Position point = new Position(wall.Coordinates.X + i, wall.Coordinates.Y);
+								DrawableEntities.Add(new Explosion(point, 36, 36));
+							}
+							for (int i = 0; i < wall.Height; i += 36)
+							{
+								Position point = new Position(wall.Coordinates.X, wall.Coordinates.Y + i);
+								DrawableEntities.Add(new Explosion(point, 36, 36));
+							}
+							return;
+						}
 
 						bullets.Remove(bullet);
 						DrawableEntities.Remove(bullet);
 						MovableEntities.Remove(bullet);
 						break;
 					}
-					
+
 				}
 
 				foreach (var invisibleBullet in invisibleBullets)
@@ -135,6 +158,7 @@ namespace Tanks
 					if (IsBoxColiding(Kolobok, bullet))
 					{
 						GameOver = true;
+						Thread.Sleep(1000);
 						return;
 					}
 				}
@@ -199,6 +223,7 @@ namespace Tanks
 				if (IsBoxColiding(Kolobok, tank))
 				{
 					GameOver = true;
+					Thread.Sleep(1000);
 					break;
 				}
 
@@ -210,7 +235,7 @@ namespace Tanks
 						DrawableEntities.Remove(tank);
 						MovableEntities.Remove(tank);
 
-						DrawableEntities.Add(new Explosion(tank.Coordinates, tank.Width, tank.Height, Direction.NONE));
+						DrawableEntities.Add(new Explosion(tank.Coordinates, tank.Width, tank.Height));
 
 						bullets.Remove(bullet);
 						DrawableEntities.Remove(bullet);
@@ -245,6 +270,10 @@ namespace Tanks
 			foreach (var tank in Tanks)
 			{
 				if (IsBoxColiding(entity, tank)) return true;
+			}
+			foreach (var river in rivers)
+			{
+				if (IsBoxColiding(entity, river)) return true;
 			}
 			if (IsBoxColiding(entity, Kolobok)) return true;
 			return false;

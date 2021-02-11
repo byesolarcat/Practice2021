@@ -16,7 +16,9 @@ namespace Tanks
 			CurrentImage = images[0];
 
 			this.direction = direction;
-			speed = 4;
+			speed = 3;
+
+			OffsetInitialPosition();
 
 			this.shooter = shooter;
 		}
@@ -29,7 +31,9 @@ namespace Tanks
 			CurrentImage = images[0];
 
 			this.direction = direction;
-			speed = 7;
+			speed = 3;
+
+			OffsetInitialPosition();
 
 		}
 
@@ -66,9 +70,37 @@ namespace Tanks
 						new Rectangle(new Point(Coordinates.X, Coordinates.Y), new Size(Width, Height)));
 		}
 
+		private void OffsetInitialPosition()
+		{
+			switch (direction)
+			{
+				case Direction.Right:
+					{
+						Coordinates.X += speed * 2;
+						break;
+					}
+				case Direction.Left:
+					{
+						Coordinates.X -= speed * 2;
+						break;
+					}
+				case Direction.Up:
+					{
+						Coordinates.Y -= speed * 2;
+						break;
+					}
+				case Direction.Down:
+					{
+						Coordinates.Y += speed * 2;
+						break;
+					}
+			}
+		}
+
 		public void SwitchDirection()
 		{
 			return;
 		}
+
 	}
 }
