@@ -3,8 +3,7 @@
     flex-direction: column;
     align-content: center;
     align-items: center;
-    padding-left: 15px;
-    padding-right: 15px;
+    margin: 0 43px 0 41px;
   }
   .timeline {
     position: relative;
@@ -15,7 +14,6 @@
   
   .time-dot {
     position: absolute;
-    top: 0;
     left: -7.2px;
     width: 20px;
     height: 20px;
@@ -36,9 +34,7 @@
     flex-direction: column nowrap;
   
     justify-content: center;
-    align-content: center;
     align-items: center;
-    align-self: center;
   
     background-color: #dbe1e8;
     color: white;
