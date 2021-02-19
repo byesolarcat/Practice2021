@@ -68,12 +68,13 @@ namespace Tanks
 			// 
 			// startGameButton
 			// 
-			this.startGameButton.Location = new System.Drawing.Point(235, 21);
+			this.startGameButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.startGameButton.Location = new System.Drawing.Point(257, 21);
 			this.startGameButton.Margin = new System.Windows.Forms.Padding(4);
 			this.startGameButton.Name = "startGameButton";
 			this.startGameButton.Size = new System.Drawing.Size(128, 78);
 			this.startGameButton.TabIndex = 3;
-			this.startGameButton.Text = "Start";
+			this.startGameButton.Text = "START";
 			this.startGameButton.UseVisualStyleBackColor = true;
 			this.startGameButton.Click += new System.EventHandler(this.startGameButton_Click);
 			// 
@@ -87,11 +88,11 @@ namespace Tanks
 			// 
 			this.label1.AutoSize = true;
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.label1.Location = new System.Drawing.Point(386, 6);
+			this.label1.Location = new System.Drawing.Point(454, 6);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(226, 93);
+			this.label1.Size = new System.Drawing.Size(159, 93);
 			this.label1.TabIndex = 4;
-			this.label1.Text = "Press \"P\" to open\r\ninfo about\r\nentities";
+			this.label1.Text = "Press \"P\" to\r\nopen/close\r\nentities info\r\n";
 			this.label1.Click += new System.EventHandler(this.label1_Click);
 			// 
 			// MainGameForm

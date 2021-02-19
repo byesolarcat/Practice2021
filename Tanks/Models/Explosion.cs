@@ -5,6 +5,7 @@ namespace Tanks
 	class Explosion : EntityModel, IDrawable
 	{
 		private int currentImageNum;
+		public bool IsFinished;
 		public Explosion(Position coordinates, int width, int height) : base(coordinates, width, height)
 		{
 			InitImages();
@@ -14,9 +15,12 @@ namespace Tanks
 		public void Draw(Graphics g)
 		{
 			CurrentImage = images[currentImageNum];
-			g.DrawImageUnscaledAndClipped(CurrentImage,
+			g.DrawImage(CurrentImage,
 						new Rectangle(new Point(Coordinates.X, Coordinates.Y), new Size(Width, Height)));
-			if (currentImageNum != 12) currentImageNum++;
+			if (currentImageNum != 12)
+				currentImageNum++;
+			else
+				IsFinished = true;
 
 		}
 

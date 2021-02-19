@@ -55,6 +55,12 @@ namespace Tanks
 				foreach (var entity in controller.DrawableEntities)
 				{
 					entity.Draw(g);
+					var exp = entity as Explosion;
+					if (exp != null && exp.IsFinished)
+					{
+						controller.DrawableEntities.Remove(exp);
+						break;
+					}
 				}
 			}
 

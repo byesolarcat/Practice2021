@@ -46,12 +46,7 @@ namespace Tanks
 			bullets = new List<Bullet>();
 			invisibleBullets = new List<Bullet>();
 
-			//InitWalls();
-			//InitRivers();
-
 			InitGameObjects();
-
-
 		}
 
 		public void SpawnTank(Size fieldSize)
@@ -102,7 +97,7 @@ namespace Tanks
 				{
 					if (IsBoxColiding(wall, bullet))
 					{
-						DrawableEntities.Add(new Explosion(new Position(bullet.Coordinates.X - 16, bullet.Coordinates.Y - 16), 32, 32));
+						DrawableEntities.Add(new Explosion(new Position(bullet.Coordinates.X - 8, bullet.Coordinates.Y - 8), 16, 16));
 						bullets.Remove(bullet);
 						DrawableEntities.Remove(bullet);
 						MovableEntities.Remove(bullet);
