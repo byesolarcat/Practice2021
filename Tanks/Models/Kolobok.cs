@@ -72,7 +72,7 @@ namespace Tanks
 
 		public void Draw(Graphics g)
 		{
-			g.DrawImageUnscaledAndClipped(CurrentImage,
+			g.DrawImage(CurrentImage,
 						new Rectangle(new Point(Coordinates.X, Coordinates.Y), new Size(Width, Height)));
 		}
 

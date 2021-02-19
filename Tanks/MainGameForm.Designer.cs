@@ -51,7 +51,7 @@ namespace Tanks
 			this.gameFieldPictureBox.Location = new System.Drawing.Point(0, 107);
 			this.gameFieldPictureBox.Margin = new System.Windows.Forms.Padding(4);
 			this.gameFieldPictureBox.Name = "gameFieldPictureBox";
-			this.gameFieldPictureBox.Size = new System.Drawing.Size(683, 559);
+			this.gameFieldPictureBox.Size = new System.Drawing.Size(626, 559);
 			this.gameFieldPictureBox.TabIndex = 1;
 			this.gameFieldPictureBox.TabStop = false;
 			// 
@@ -68,7 +68,7 @@ namespace Tanks
 			// 
 			// startGameButton
 			// 
-			this.startGameButton.Location = new System.Drawing.Point(276, 21);
+			this.startGameButton.Location = new System.Drawing.Point(235, 21);
 			this.startGameButton.Margin = new System.Windows.Forms.Padding(4);
 			this.startGameButton.Name = "startGameButton";
 			this.startGameButton.Size = new System.Drawing.Size(128, 78);
@@ -87,7 +87,7 @@ namespace Tanks
 			// 
 			this.label1.AutoSize = true;
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.label1.Location = new System.Drawing.Point(442, 6);
+			this.label1.Location = new System.Drawing.Point(386, 6);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(226, 93);
 			this.label1.TabIndex = 4;
@@ -100,7 +100,7 @@ namespace Tanks
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.BackColor = System.Drawing.Color.White;
-			this.ClientSize = new System.Drawing.Size(680, 663);
+			this.ClientSize = new System.Drawing.Size(625, 663);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.startGameButton);
 			this.Controls.Add(this.gameFieldPictureBox);

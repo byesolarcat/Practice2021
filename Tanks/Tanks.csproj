@@ -66,6 +66,7 @@
     <Compile Include="Models\EntityModel.cs" />
     <Compile Include="Misc\IMovable.cs" />
     <Compile Include="Models\Explosion.cs" />
+    <Compile Include="Models\IndestructibleWall.cs" />
     <Compile Include="Models\Kolobok.cs" />
     <Compile Include="Models\River.cs" />
     <Compile Include="Models\Tank.cs" />
@@ -109,9 +110,6 @@
     <None Include="img\kolobok\kolobok_down.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\wall.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="img\tank\tank_down.png" />
   </ItemGroup>
   <ItemGroup>
@@ -143,6 +141,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="img\explosions\explosion_start.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="gamemap.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\indestructible_wall.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="img\wall.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

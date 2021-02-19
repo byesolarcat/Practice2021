@@ -2,17 +2,15 @@
 
 namespace Tanks
 {
-	public class Wall : EntityModel, IDrawable
+	class IndestructibleWall : Wall
 	{
-		public int? Health { get; set; }
-		public Wall(Position coordinates, int width, int height) : base(coordinates, width, height)
+		public IndestructibleWall(Position coordinates, int width, int height) : base(coordinates, width, height)
 		{
 			InitImages();
 			CurrentImage = images[0];
 
-			Health = 1;
+			Health = null;
 		}
-
 		public void Draw(Graphics g)
 		{
 			g.DrawImage(CurrentImage,
@@ -23,7 +21,7 @@ namespace Tanks
 		{
 			images = new Bitmap[1];
 
-			images[0] = Properties.Resources.wall;
+			images[0] = Properties.Resources.indestructible_wall;
 		}
 	}
 }

@@ -111,11 +111,41 @@ namespace Tanks.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to -------------
+        ///-w-w-w-w-w-w-
+        ///-w-w-w-w-w-w-
+        ///-w-w-w-w-w-w-
+        ///-w-w-----w-w-
+        ///-----rrr-----
+        ///h-ww-----ww-h
+        ///-----w-w-----
+        ///-w-w-w-w-w-w-
+        ///-w-w-w-w-w-w-
+        ///-w-w-----w-w-
+        ///------k------.
+        /// </summary>
+        internal static string gamemap {
+            get {
+                return ResourceManager.GetString("gamemap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap gameOver {
             get {
                 object obj = ResourceManager.GetObject("gameOver", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap indestructible_wall {
+            get {
+                object obj = ResourceManager.GetObject("indestructible_wall", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Threading;
 using System.Windows.Forms;
 
 namespace Tanks
@@ -32,14 +31,18 @@ namespace Tanks
 
 		private void InitGameOver()
 		{
-			if (infoForm != null) infoForm.Dispose();
+			if (infoForm != null)
+			{
+				infoForm.Dispose();
+				infoForm = null;
+			}
 			startGameButton.Enabled = true;
 			gameFieldPictureBox.Image = Properties.Resources.gameOver;
 			Bitmap bmp = new Bitmap(this.gameFieldPictureBox.Image);
 			using (Graphics g = Graphics.FromImage(bmp))
 			{
-				g.DrawImageUnscaledAndClipped(Properties.Resources.gameOver,
-						new Rectangle(new Point(0, 0), new Size(100, 100)));
+				g.DrawImage(Properties.Resources.gameOver,
+						new Rectangle(new Point(0, 0), this.gameFieldPictureBox.Size));
 
 			}
 		}
@@ -71,7 +74,7 @@ namespace Tanks
 			{
 				InitGameOver();
 			}
-			
+
 		}
 
 		private void startGameButton_Click(object sender, EventArgs e)
@@ -93,13 +96,21 @@ namespace Tanks
 		private void MainGameForm_KeyDown(object sender, KeyEventArgs e)
 		{
 			controller.KeyIsDown_Handler(sender, e);
-			if (e.KeyCode == Keys.P)
+			if (e.KeyCode == Keys.P && infoForm == null)
 			{
 				infoForm = new EntitiesInfo(controller);
 				infoForm.StartPosition = FormStartPosition.Manual;
 				infoForm.Location = new Point(this.Location.X + this.Width, this.Location.Y);
 				infoForm.Show(this);
-			} 
+			}
+			else if (e.KeyCode == Keys.P && infoForm.Visible)
+			{
+				infoForm.Hide();
+			}
+			else if (e.KeyCode == Keys.P && !infoForm.Visible)
+			{
+				infoForm.Show(this);
+			}
 			else if (e.KeyCode == Keys.Y && controller.GameOver)
 			{
 				InitGameOver();

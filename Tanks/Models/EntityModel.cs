@@ -27,7 +27,7 @@ namespace Tanks
 		public Direction direction;
 		[Browsable(false)]
 		public int speed;
-		
+
 		public string Title { get; protected set; }
 
 		public EntityModel(Position coordinates, int width, int height)

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Drawing;
 
 namespace Tanks
 {
-	class Explosion: EntityModel, IDrawable
+	class Explosion : EntityModel, IDrawable
 	{
 		private int currentImageNum;
 		public Explosion(Position coordinates, int width, int height) : base(coordinates, width, height)
@@ -22,7 +17,7 @@ namespace Tanks
 			g.DrawImageUnscaledAndClipped(CurrentImage,
 						new Rectangle(new Point(Coordinates.X, Coordinates.Y), new Size(Width, Height)));
 			if (currentImageNum != 12) currentImageNum++;
-			
+
 		}
 
 		private void InitImages()

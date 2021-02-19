@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Drawing;
+using System.IO;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace Tanks
 {
@@ -48,13 +46,12 @@ namespace Tanks
 			bullets = new List<Bullet>();
 			invisibleBullets = new List<Bullet>();
 
-			InitWalls();
-			InitRivers();
+			//InitWalls();
+			//InitRivers();
 
-			Kolobok = new Kolobok(new Position(170, 420), 36, 36);
-			
-			MovableEntities.Add(Kolobok);
-			DrawableEntities.Add(Kolobok);
+			InitGameObjects();
+
+
 		}
 
 		public void SpawnTank(Size fieldSize)
@@ -106,28 +103,21 @@ namespace Tanks
 					if (IsBoxColiding(wall, bullet))
 					{
 						DrawableEntities.Add(new Explosion(new Position(bullet.Coordinates.X - 16, bullet.Coordinates.Y - 16), 32, 32));
-
-						wall.Health -= 5;
-						if (wall.Health <= 0)
-						{
-							walls.Remove(wall);
-							DrawableEntities.Remove(wall);
-							for (int i = 0; i < wall.Width; i += 36)
-							{
-								Position point = new Position(wall.Coordinates.X + i, wall.Coordinates.Y);
-								DrawableEntities.Add(new Explosion(point, 36, 36));
-							}
-							for (int i = 0; i < wall.Height; i += 36)
-							{
-								Position point = new Position(wall.Coordinates.X, wall.Coordinates.Y + i);
-								DrawableEntities.Add(new Explosion(point, 36, 36));
-							}
-							return;
-						}
-
 						bullets.Remove(bullet);
 						DrawableEntities.Remove(bullet);
 						MovableEntities.Remove(bullet);
+						if (wall.Health != null)
+						{
+							wall.Health -= 5;
+							if (wall.Health <= 0)
+							{
+								walls.Remove(wall);
+								DrawableEntities.Remove(wall);
+								DrawableEntities.Add(new Explosion(
+										new Position(wall.Coordinates.X, wall.Coordinates.Y), 36, 36));
+								return;
+							}
+						}
 						break;
 					}
 
@@ -148,22 +138,15 @@ namespace Tanks
 		private void CheckKolobokCollisions(Size gameField)
 		{
 			if (ReturnInBounds(Kolobok, gameField)) ;
-			foreach (var wall in walls)
+			foreach (var bullet in bullets)
 			{
-				if (IsBoxColiding(Kolobok, wall))
-					CorrectPosition(Kolobok, wall);
-
-				foreach (var bullet in bullets)
+				if (IsBoxColiding(Kolobok, bullet))
 				{
-					if (IsBoxColiding(Kolobok, bullet))
-					{
-						GameOver = true;
-						Thread.Sleep(1000);
-						return;
-					}
+					GameOver = true;
+					Thread.Sleep(1000);
+					return;
 				}
 			}
-
 			foreach (var apple in apples)
 			{
 				if (IsBoxColiding(Kolobok, apple))
@@ -281,7 +264,7 @@ namespace Tanks
 
 		private bool ReturnInBounds(EntityModel entity, Size clientSize)
 		{
-			if(entity.Bottom > clientSize.Height)
+			if (entity.Bottom > clientSize.Height)
 			{
 				entity.Coordinates.Y = clientSize.Height - entity.Height;
 				return true;
@@ -306,13 +289,13 @@ namespace Tanks
 
 		private Direction ReturnCollidingSide(EntityModel collidingEntity, EntityModel obstacle)
 		{
-			if (collidingEntity.Right <= obstacle.Left + 1)
+			if (collidingEntity.Right - 2 <= obstacle.Left)
 				return Direction.Right;
-			if (collidingEntity.Left + 1 >= obstacle.Right)
+			else if (collidingEntity.Left + 2 >= obstacle.Right)
 				return Direction.Left;
-			if (collidingEntity.Top + 1 >= obstacle.Bottom)
+			else if (collidingEntity.Top + 2 >= obstacle.Bottom)
 				return Direction.Up;
-			if (collidingEntity.Bottom >= obstacle.Top)
+			else if (collidingEntity.Bottom - 2 >= obstacle.Top)
 				return Direction.Down;
 
 			return Direction.NONE;
@@ -344,7 +327,6 @@ namespace Tanks
 					}
 			}
 
-			if (collidingEntity is Kolobok) return;
 
 			IMovable entity = collidingEntity as IMovable;
 			entity?.SwitchDirection();
@@ -369,7 +351,7 @@ namespace Tanks
 				MovableEntities.Add(bullet);
 				invisibleBullets.Add(bullet);
 			}
-			
+
 		}
 
 		public void KeyIsDown_Handler(object sender, KeyEventArgs e)
@@ -409,81 +391,60 @@ namespace Tanks
 						break;
 					}
 			}
-			
+
 		}
 
-		private void InitWalls()
+		private void InitGameObjects()
 		{
-			Wall wall1 = new Wall(new Position(38, 38), 36, 144);
-			Wall wall2 = new Wall(new Position(116, 38), 36, 144);
-			Wall wall3 = new Wall(new Position(194, 38), 36, 108);
-			Wall wall4 = new Wall(new Position(278, 38), 36, 108);
-			Wall wall5 = new Wall(new Position(356, 38), 36, 144);
-			Wall wall6 = new Wall(new Position(434, 38), 36, 144);
+			using (StreamReader sr = new StreamReader("gamemap.txt"))
+			{
+				int coordX = 1;
+				int coordY = 1;
+				while (!sr.EndOfStream)
+				{
+					string row = sr.ReadLine();
+					for (int i = 0; i < row.Length; i++)
+					{
+						if (row[i] == 'w')
+						{
+							int x = coordX * (i) * 36;
+							int y = coordY;
+							Wall wall = new Wall(new Position(x, y), 36, 36);
 
-			Wall wall7 = new Wall(new Position(0, 226), 36, 36);
-			Wall wall8 = new Wall(new Position(77, 226), 72, 36);
+							walls.Add(wall);
+							DrawableEntities.Add(wall);
+						}
+						else if (row[i] == 'r')
+						{
+							int x = coordX * (i) * 36;
+							int y = coordY;
+							River river = new River(new Position(x, y), 36, 36);
 
-			//Wall wall9 = new Wall(new Position(194, 192), 36, 36);
-			//Wall wall10 = new Wall(new Position(278, 192), 36, 36);
+							rivers.Add(river);
+							DrawableEntities.Add(river);
+						}
+						else if (row[i] == 'h')
+						{
+							int x = coordX * (i) * 36;
+							int y = coordY;
+							IndestructibleWall wall = new IndestructibleWall(new Position(x, y), 36, 36);
 
-			Wall wall11 = new Wall(new Position(356, 226), 72, 36);
-			Wall wall12 = new Wall(new Position(473, 226), 36, 36);
+							walls.Add(wall);
+							DrawableEntities.Add(wall);
+						}
+						else if (row[i] == 'k')
+						{
+							int x = coordX * (i) * 36;
+							int y = coordY;
+							Kolobok = new Kolobok(new Position(x, y), 33, 33);
 
-			Wall wall13 = new Wall(new Position(194, 273), 36, 108);
-			Wall wall14 = new Wall(new Position(278, 273), 36, 108);
-
-			Wall wall15 = new Wall(new Position(38, 307), 36, 108);
-			Wall wall16 = new Wall(new Position(116, 307), 36, 108);
-
-			Wall wall17 = new Wall(new Position(356, 307), 36, 108);
-			Wall wall18 = new Wall(new Position(434, 307), 36, 108);
-
-			walls.Add(wall1);
-			walls.Add(wall2);
-			walls.Add(wall3);
-			walls.Add(wall4);
-			walls.Add(wall5);
-			walls.Add(wall6);
-			walls.Add(wall7);
-			walls.Add(wall8);
-			//walls.Add(wall9);
-			//walls.Add(wall10);
-			walls.Add(wall11);
-			walls.Add(wall12);
-			walls.Add(wall13);
-			walls.Add(wall14);
-			walls.Add(wall15);
-			walls.Add(wall16);
-			walls.Add(wall17);
-			walls.Add(wall18);
-
-			DrawableEntities.Add(wall1);
-			DrawableEntities.Add(wall2);
-			DrawableEntities.Add(wall3);
-			DrawableEntities.Add(wall4);
-			DrawableEntities.Add(wall5);
-			DrawableEntities.Add(wall6);
-			DrawableEntities.Add(wall7);
-			DrawableEntities.Add(wall8);
-			//DrawableEntities.Add(wall9);
-			//DrawableEntities.Add(wall10);
-			DrawableEntities.Add(wall11);
-			DrawableEntities.Add(wall12);
-			DrawableEntities.Add(wall13);
-			DrawableEntities.Add(wall14);
-			DrawableEntities.Add(wall15);
-			DrawableEntities.Add(wall16);
-			DrawableEntities.Add(wall17);
-			DrawableEntities.Add(wall18);
-		}
-
-		private void InitRivers()
-		{
-			River river = new River(new Position(194, 192), 108, 36);
-
-			rivers.Add(river);
-			DrawableEntities.Add(river);
+							MovableEntities.Add(Kolobok);
+							DrawableEntities.Add(Kolobok);
+						}
+					}
+					coordY += 36;
+				}
+			}
 		}
 	}
 }

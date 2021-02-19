@@ -5,15 +5,13 @@ namespace Tanks
 {
 	public class Tank : EntityModel, IMovable, IDrawable
 	{
-		private static int id;
-		Random rnd = new Random();
 
 		public Tank(Position coordinates, int width, int height) : base(coordinates, width, height)
 		{
 			direction = Direction.Right;
 			speed = 1;
 
-			Title = "Tank #" + id++;
+			Title = "Tank";
 
 			InitImages();
 		}
@@ -85,7 +83,7 @@ namespace Tanks
 
 		public void Draw(Graphics g)
 		{
-			g.DrawImageUnscaledAndClipped(CurrentImage,
+			g.DrawImage(CurrentImage,
 						new Rectangle(new Point(Coordinates.X, Coordinates.Y), new Size(Width, Height)));
 		}
 		public Bullet Shoot()
